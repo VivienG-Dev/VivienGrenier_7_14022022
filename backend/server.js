@@ -16,6 +16,7 @@ const db = mysql.createConnection({
   database: "groupomania",
 });
 
+// Création d'un utilisateur
 app.post("/create", (req, res) => {
   // On récupère les données du formulaire de l'utilisateur
   const name = req.body.name;
@@ -38,6 +39,7 @@ app.post("/create", (req, res) => {
   );
 });
 
+// Lire les info des utilisateurs
 app.get("/getusers", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
     if (err) {
@@ -47,6 +49,27 @@ app.get("/getusers", (req, res) => {
     }
   });
 });
+
+// Mettre à jour l'utilisateur
+app.put("/update", (req, res) => {
+  const id = req.body.id;
+  const country = req.body.country;
+
+  db.query(
+    "UPDATE users SET country = ? WHERE id = ?",
+    [country, id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+// Supprimer un utilisateur
+// app.delete();
 
 // Ecoute un serveur décidé préalablement plus haut
 app.listen(port, (err) => {
