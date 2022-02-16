@@ -50,7 +50,7 @@ app.get("/getusers", (req, res) => {
   });
 });
 
-// Mettre à jour l'utilisateur
+// Mettre à jour le pays de l'utilisateur
 app.put("/update", (req, res) => {
   const id = req.body.id;
   const country = req.body.country;
@@ -69,7 +69,12 @@ app.put("/update", (req, res) => {
 });
 
 // Supprimer un utilisateur
-// app.delete();
+app.delete('/delete/:id', (req, res) => {
+  const id = req.params.id
+  db.query("DELETE FROM users WHERE id = ?", id, (err, result) => {
+    err ? console.log(err) : res.send(result);
+  })
+});
 
 // Ecoute un serveur décidé préalablement plus haut
 app.listen(port, (err) => {

@@ -67,6 +67,16 @@ function App() {
     });
   };
 
+  const deleteUser = (id) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+      setUsersList(
+        usersList.filter((user) => {
+          return user.id !== id;
+        })
+      );
+    });
+  };
+
   return (
     <div className="App">
       <div className="information">
@@ -131,6 +141,14 @@ function App() {
                   }}
                 >
                   Update
+                </button>
+
+                <button
+                  onClick={() => {
+                    deleteUser(user.id);
+                  }}
+                >
+                  Delete
                 </button>
               </div>
             </div>
