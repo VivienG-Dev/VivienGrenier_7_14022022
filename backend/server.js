@@ -3,6 +3,8 @@ const app = express();
 const mysql = require("mysql2");
 const port = 3001;
 const cors = require("cors");
+// const session = require("express-session");
+// const path = require("path");
 
 app.use(cors());
 // Middlewares qu'on attribue pour gérer la requête POST venant de l'application front-end pour en extraire le corps JSON
@@ -39,6 +41,31 @@ app.post("/create", (req, res) => {
   );
 });
 
+// Inscription d'un utilisateur
+app.post("/register", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
+  db.query(
+    "INSERT INTO groupomania.accounts (username, password, email) VALUES (?,?,?)",
+    [username, password, email],
+    (err, result) => {
+      err ? console.log(err) : res.send(result);
+    }
+  );
+});
+
+// Connexion d'un utilisateur
+app.post('/login', (req, res) => {
+  const password = req.body.password;
+  const email = req.body.email;
+  db.query(
+    "SELECT * FROM accounts WHERE email = ? AND password = ?", [email, password], (err, result) => {
+      err ? console.log(err) : res.send(result);
+    }
+  );
+});
+
 // Lire les info des utilisateurs
 app.get("/getusers", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
@@ -69,11 +96,11 @@ app.put("/update", (req, res) => {
 });
 
 // Supprimer un utilisateur
-app.delete('/delete/:id', (req, res) => {
-  const id = req.params.id
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
   db.query("DELETE FROM users WHERE id = ?", id, (err, result) => {
     err ? console.log(err) : res.send(result);
-  })
+  });
 });
 
 // Ecoute un serveur décidé préalablement plus haut

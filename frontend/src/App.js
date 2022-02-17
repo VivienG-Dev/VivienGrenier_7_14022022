@@ -10,10 +10,17 @@ function App() {
   const [gender, setGender] = useState("");
   const [position, setPosition] = useState("");
   const [country, setCountry] = useState("");
-
   const [newCountry, setNewCountry] = useState("");
-
   const [usersList, setUsersList] = useState([]);
+
+  // Inscription
+  const [userNameReg, setUserNameReg] = useState("");
+  const [emailReg, setEmailReg] = useState("");
+  const [passwordReg, setPasswordReg] = useState("");
+
+  // Connexion
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   // Avec cette fonction on envoie l'objet de données vers le backend
   const addUser = () => {
@@ -77,9 +84,69 @@ function App() {
     });
   };
 
+  const register = () => {
+    Axios.post("http://localhost:3001/register", {
+      username: userNameReg,
+      password: passwordReg,
+      email: emailReg,
+    }).then((response) => {
+      console.log(response);
+    });
+  };
+
+  const login = () => {
+    Axios.post("http://localhost:3001/login", {
+      password: password,
+      email: email,
+    }).then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <div className="App">
       <div className="information">
+        <h1>Incription</h1>
+        <input
+          type="text"
+          onChange={(e) => {
+            setUserNameReg(e.target.value);
+          }}
+          placeholder="Username..."
+        />
+        <input
+          type="email"
+          onChange={(e) => {
+            setEmailReg(e.target.value);
+          }}
+          placeholder="Email..."
+        />
+        <input
+          type="password"
+          onChange={(e) => {
+            setPasswordReg(e.target.value);
+          }}
+          placeholder="Password..."
+        />
+        <button onClick={register}>Inscription</button>
+        <hr />
+        <h1>Connexion</h1>
+        <input
+          type="email"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          placeholder="Email..."
+        />
+        <input
+          type="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          placeholder="Password..."
+        />
+        <button onClick={login}>Connexion</button>
+        <hr />
         {/* Au changement (onChange) de la valeur dans un input, on appel une fonction qui cible la valeur de l'input et useState s'occupe de mettre cette valeur dans une variable */}
         <label>Name:</label>
         <input
