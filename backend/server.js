@@ -1,15 +1,42 @@
 const express = require("express");
 const app = express();
+// mysql2 pour résoudre un bug avec mysql8.0
 const mysql = require("mysql2");
 const port = 3001;
 const cors = require("cors");
+// Pour hash le mot de passe de l'utilisateur
 const bcrypt = require("bcrypt");
-// const session = require("express-session");
+// Pour créer une session et la garder ouverte
+const session = require("express-session");
+// Pour analyser les cookies dans les demandes de l'application
+const cookieParser = require("cookie-parser");
 // const path = require("path");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  })
+);
+
 // Middlewares qu'on attribue pour gérer la requête POST venant de l'application front-end pour en extraire le corps JSON
 app.use(express.json());
+
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    key: "userid",
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24, // 24h
+    },
+  })
+);
 
 // On connecte node.js avec note base de donnée mysql préalablement installé
 const db = mysql.createConnection({
@@ -60,6 +87,22 @@ app.post("/register", (req, res) => {
   });
 });
 
+// Récupération de la session d'un utilisateur
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false, user: req.session.user });
+  }
+});
+
+app.post("/logout", (req, res) => {
+  if (req.session.user) {
+    res.clearCookie("userid");
+    res.send({ loggedIn: false, user: req.session.user });
+  }
+});
+
 // Connexion d'un utilisateur
 app.post("/login", (req, res) => {
   const password = req.body.password;
@@ -72,6 +115,8 @@ app.post("/login", (req, res) => {
     if (result.length > 0) {
       bcrypt.compare(password, result[0].password, (err, response) => {
         if (response) {
+          req.session.user = result;
+          console.log(req.session.user);
           res.send(result);
         } else {
           res.send({ message: "Le mot de passe/email n'est pas bon" });

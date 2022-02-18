@@ -1,7 +1,7 @@
 import "./App.css";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   // On utilise useState pour sauvegarder les données du formulaire
@@ -87,6 +87,7 @@ function App() {
     });
   };
 
+  Axios.defaults.withCredentials = true;
   const register = () => {
     Axios.post("http://localhost:3001/register", {
       username: userNameReg,
@@ -103,13 +104,38 @@ function App() {
       email: email,
     }).then((response) => {
       if (response.data.message) {
-        setLoginStatus(response.data.message)
+        setLoginStatus(response.data.message);
       } else {
         // On cible le premier élément de notre tableau et on récupère le nom de l'utilisateur
-        setLoginStatus(`Bienvenue ${response.data[0].username}`)
+        setLoginStatus(`Bienvenue ${response.data[0].username}`);
       }
     });
   };
+
+  const logout = () => {
+    Axios.post("http://localhost:3001/logout").then((response) => {
+      if (response.data.loggedIn === true) {
+        setLoginStatus(`Vous avez été déconneté`);
+      }
+    });
+  }
+
+  // useEffect marchera à chaque fois qu'un utilisateur refresh la page
+  useEffect(() => {
+    Axios.get("http://localhost:3001/login").then((response) => {
+      if (response.data.loggedIn === true) {
+        setLoginStatus(`Bienvenue ${response.data.user[0].username}`);
+      }
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   Axios.get("http://localhost:3001/logout").then((response) => {
+  //     if (response.data.loggedIn === false) {
+  //       setLoginStatus("");
+  //     }
+  //   });
+  // }, [setLoginStatus]);
 
   return (
     <div className="App">
@@ -154,6 +180,7 @@ function App() {
           placeholder="Password..."
         />
         <button onClick={login}>Connexion</button>
+        <button onClick={logout}>Deconnexion</button>
         <h2>{loginStatus}</h2>
         <hr />
         {/* Au changement (onChange) de la valeur dans un input, on appel une fonction qui cible la valeur de l'input et useState s'occupe de mettre cette valeur dans une variable */}
