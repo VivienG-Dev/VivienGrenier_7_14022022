@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql2");
 const port = 3001;
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 // const session = require("express-session");
 // const path = require("path");
 
@@ -46,24 +47,40 @@ app.post("/register", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
-  db.query(
-    "INSERT INTO groupomania.accounts (username, password, email) VALUES (?,?,?)",
-    [username, password, email],
-    (err, result) => {
-      err ? console.log(err) : res.send(result);
-    }
-  );
+
+  bcrypt.hash(password, 10, (err, hash) => {
+    err: console.log(err);
+    db.query(
+      "INSERT INTO groupomania.accounts (username, password, email) VALUES (?,?,?)",
+      [username, hash, email],
+      (err, result) => {
+        err ? console.log(err) : res.send(result);
+      }
+    );
+  });
 });
 
 // Connexion d'un utilisateur
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
-  db.query(
-    "SELECT * FROM accounts WHERE email = ? AND password = ?", [email, password], (err, result) => {
-      err ? console.log(err) : res.send(result);
+  db.query("SELECT * FROM accounts WHERE email = ?", email, (err, result) => {
+    if (err) {
+      res.send({ err: err });
     }
-  );
+    // Si un des champs n'est pas rempli alors on donne un message d'erreur, sinon le resultat
+    if (result.length > 0) {
+      bcrypt.compare(password, result[0].password, (err, response) => {
+        if (response) {
+          res.send(result);
+        } else {
+          res.send({ message: "Le mot de passe/email n'est pas bon" });
+        }
+      });
+    } else {
+      res.send({ message: "L'utilisateur n'existe pas" });
+    }
+  });
 });
 
 // Lire les info des utilisateurs

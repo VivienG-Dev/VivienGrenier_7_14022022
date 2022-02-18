@@ -22,6 +22,9 @@ function App() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  // Status de connexion (si l'utilisateur c'est bien connecté)
+  const [loginStatus, setLoginStatus] = useState("");
+
   // Avec cette fonction on envoie l'objet de données vers le backend
   const addUser = () => {
     Axios.post("http://localhost:3001/create", {
@@ -99,7 +102,12 @@ function App() {
       password: password,
       email: email,
     }).then((response) => {
-      console.log(response);
+      if (response.data.message) {
+        setLoginStatus(response.data.message)
+      } else {
+        // On cible le premier élément de notre tableau et on récupère le nom de l'utilisateur
+        setLoginStatus(`Bienvenue ${response.data[0].username}`)
+      }
     });
   };
 
@@ -146,6 +154,7 @@ function App() {
           placeholder="Password..."
         />
         <button onClick={login}>Connexion</button>
+        <h2>{loginStatus}</h2>
         <hr />
         {/* Au changement (onChange) de la valeur dans un input, on appel une fonction qui cible la valeur de l'input et useState s'occupe de mettre cette valeur dans une variable */}
         <label>Name:</label>
