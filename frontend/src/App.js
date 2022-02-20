@@ -30,7 +30,7 @@ function App() {
           <Route path="/submit" element={<CreatePost />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="/posts/:id" element={<Post />} />
         </Routes>
       </Router>
     </div>

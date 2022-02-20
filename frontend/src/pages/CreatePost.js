@@ -30,7 +30,7 @@ function CreatePost() {
   });
 
   const onSubmit = (data) => {
-    Axios.post("http://localhost:3001/posts", data).then((response) => {
+    Axios.post("http://localhost:3001/posts/submit", data).then((response) => {
       // On ajoute les données dans le "state" ce qui va permettre d'utiliser les données dans l'application
       setListOfPosts(response.data);
       navigate("/");
