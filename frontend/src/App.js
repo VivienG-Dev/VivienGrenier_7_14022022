@@ -2,6 +2,8 @@ import "./App.css";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   // On utilise useState pour sauvegarder les données du formulaire
@@ -18,9 +20,9 @@ function App() {
   const [emailReg, setEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
-  // Connexion
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  // // Connexion
+  // const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
 
   // Status de connexion (si l'utilisateur c'est bien connecté)
   const [loginStatus, setLoginStatus] = useState("");
@@ -105,41 +107,37 @@ function App() {
     }).then((response) => {
       if (response.data.message) {
         setLoginStatus(response.data.message);
+        console.log("pas co " + loginStatus);
       } else {
         // On cible le premier élément de notre tableau et on récupère le nom de l'utilisateur
-        setLoginStatus(`Bienvenue ${response.data[0].username}`);
+        setLoginStatus(`${response.data[0].username}`);
+        console.log("co " + loginStatus);
       }
     });
   };
-
-  const logout = () => {
-    Axios.post("http://localhost:3001/logout").then((response) => {
-      if (response.data.loggedIn === true) {
-        setLoginStatus(`Vous avez été déconneté`);
-      }
-    });
-  }
 
   // useEffect marchera à chaque fois qu'un utilisateur refresh la page
   useEffect(() => {
     Axios.get("http://localhost:3001/login").then((response) => {
       if (response.data.loggedIn === true) {
-        setLoginStatus(`Bienvenue ${response.data.user[0].username}`);
+        setLoginStatus(`${response.data.user[0].username}`);
       }
     });
   }, []);
 
-  // useEffect(() => {
-  //   Axios.get("http://localhost:3001/logout").then((response) => {
-  //     if (response.data.loggedIn === false) {
-  //       setLoginStatus("");
-  //     }
-  //   });
-  // }, [setLoginStatus]);
-
   return (
     <div className="App">
       <div className="information">
+        {loginStatus !== "" ? (
+          <div>
+            <h2>
+              Bienvenue, <span>{loginStatus}</span>
+            </h2>
+            <button>Logout</button>
+          </div>
+        ) : (
+          <LoginForm Login={login}/>
+        )}
         <h1>Incription</h1>
         <input
           type="text"
@@ -164,25 +162,7 @@ function App() {
         />
         <button onClick={register}>Inscription</button>
         <hr />
-        <h1>Connexion</h1>
-        <input
-          type="email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          placeholder="Email..."
-        />
-        <input
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          placeholder="Password..."
-        />
-        <button onClick={login}>Connexion</button>
-        <button onClick={logout}>Deconnexion</button>
-        <h2>{loginStatus}</h2>
-        <hr />
+
         {/* Au changement (onChange) de la valeur dans un input, on appel une fonction qui cible la valeur de l'input et useState s'occupe de mettre cette valeur dans une variable */}
         <label>Name:</label>
         <input
