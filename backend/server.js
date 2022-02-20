@@ -19,10 +19,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Routers
-const postRouter = require('./routes/Posts')
-app.use("/posts", postRouter)
-
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -30,6 +26,10 @@ app.use(
     credentials: true,
   })
 );
+
+// Routers
+const postRouter = require('./routes/Posts')
+app.use("/posts", postRouter)
 
 // app.use(
 //   session({
