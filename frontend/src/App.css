@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -34,4 +39,30 @@
   border: 1px solid black;
   margin: 10px;
   padding: 10px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.formContainer span {
+  color: red;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color:antiquewhite;
+  margin-bottom: 40px;
+  padding: 10px;
+}
+
+.header a {
+  margin-right: 20px;
 }

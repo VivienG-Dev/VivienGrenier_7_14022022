@@ -1,33 +1,38 @@
 import "./App.css";
-// On "remplace" Fetch par Axios (plus simple à utiliser)
-import Axios from "axios";
-// useEffect aura pour effet de se déclencher sur le cycle de vie du montage et de la mise à jour (componentDidMount/componentDidUpdate)
-import { useEffect, useState } from "react";
+// React Router Dom naviguer entre les différents composants, changer l'url, modifier l'historique du navigateur, ajout de routes dynamique...
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Link,
+  BrowserRouter,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import CreatePost from "./pages/CreatePost";
+import Post from "./pages/Post";
 
 function App() {
-  const [listofPosts, setListOfPosts] = useState([]);
-
-  // Quand la page est crée, la logique écrite dans useEffect est activé une fois seulement dans ce cas précis (sauf si on rempli la dépendance dans [])
-  useEffect(() => {
-    Axios.get("http://localhost:3001/posts").then((response) => {
-      // On ajoute les données dans le "state" ce qui va permettre d'utiliser les données dans l'application
-      setListOfPosts(response.data);
-    });
-  }, []);
   return (
     <div className="App">
-      {/* Comme le State est un tableau, on utilise map pour naviguer dedans */}
-      {listofPosts.map((post, key) => {
-        return (
-          <div className="post">
-            <h2 key={key}>{post.title}</h2>
-            <p>{post.postText}</p>
-            <span>Auteur: {post.username}</span>
-          </div>
-        );
-      })}
+      <Router>
+        <div className="header">
+          <Link to="/"> Accueil</Link>
+          <Link to="/submit"> Créer un post</Link>
+          <Link to="/profile"> Profile</Link>
+          <Link to="/login"> Connexion</Link>
+        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/submit" element={<CreatePost />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/post/:id" element={<Post />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
