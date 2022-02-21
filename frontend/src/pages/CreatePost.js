@@ -1,7 +1,6 @@
 import React from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
-import { useState } from "react";
 // Formik est une librairie open source qui permet de contruire des formulaires plus facilement, de gérer les erreurs etc...
 import { Formik, Form, Field, ErrorMessage } from "formik";
 // Yup est une librairie souvent utilisé avec des formulaires et permet de gérer les validations (mdp de x caractères etc)

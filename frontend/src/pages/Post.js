@@ -10,12 +10,27 @@ function Post() {
   let { id } = useParams();
   // On crée un state pour utiliser les données du post
   const [postObject, setPostObject] = useState({});
+  const [listOfcomments, setListOfComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/posts/${id}`).then((response) => {
       setPostObject(response.data);
     });
+
+    Axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+      setListOfComments(response.data);
+    });
   }, []);
+
+  const onSubmit = () => {
+    Axios.post("http://localhost:3001/comments", {
+      commentBody: newComment,
+      PostId: id,
+    }).then((response) => {
+      setListOfComments(response.data);
+    });
+  };
 
   return (
     <div className="information">
@@ -23,6 +38,29 @@ function Post() {
         <h2>{postObject.title}</h2>
         <p>{postObject.postText}</p>
         <span>Auteur: {postObject.username}</span>
+      </div>
+      <div className="comments">
+        <div className="addCommentContainer">
+          <input
+            type="text"
+            placeholder="Commentaire..."
+            onChange={(e) => {
+              setNewComment(e.target.value);
+            }}
+          />
+          <button onClick={onSubmit}> Ajouter un commentaire</button>
+          <div className="listOfComments">
+            {listOfcomments &&
+              listOfcomments.length > 0 &&
+              listOfcomments.map((comment, index) => {
+                return (
+                  <div className="post" key={index}>
+                    <p>{comment.commentBody}</p>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
       </div>
     </div>
   );

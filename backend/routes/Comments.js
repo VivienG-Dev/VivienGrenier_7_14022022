@@ -20,7 +20,7 @@ router.get("/:postId", async (req, res) => {
 router.post("/", async (req, res) => {
   const comment = req.body;
   await Comments.create(comment);
-  res.send(comment);
+  res.json(comment);
 });
 
 // On exporte router pour pouvoir l'utiliser dans server.js
