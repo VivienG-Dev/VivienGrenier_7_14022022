@@ -1,3 +1,4 @@
+//Modèle des posts
 module.exports = (sequelize, DataTypes) => {
   const Posts = sequelize.define("Posts", {
     title: {
@@ -14,5 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // On a besoin d'associer les posts avec les commentaires dans mysql, on utilise alors les fonctions de sequelize
+  // "models" est juste un argument qui a accès à tous modèles disponible
+  // Posts.hasMany(models.Comments) = chaque post a beaucoup de commentaire et à la suppression "cascade" permet de supprimer tous les commentaires associés au post
+  Posts.associate = (models) => {
+    Posts.hasMany(models.Comments, {
+      onDelete: "cascade",
+    });
+  };
   return Posts;
 };

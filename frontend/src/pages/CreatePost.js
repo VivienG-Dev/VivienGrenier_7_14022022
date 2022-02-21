@@ -10,7 +10,6 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
-  const [listOfPosts, setListOfPosts] = useState([]);
   const navigate = useNavigate();
 
   const initialValues = {
@@ -31,8 +30,6 @@ function CreatePost() {
 
   const onSubmit = (data) => {
     Axios.post("http://localhost:3001/posts/submit", data).then((response) => {
-      // On ajoute les données dans le "state" ce qui va permettre d'utiliser les données dans l'application
-      setListOfPosts(response.data);
       navigate("/");
     });
   };
