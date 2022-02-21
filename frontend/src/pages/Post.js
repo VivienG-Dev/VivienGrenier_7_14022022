@@ -28,7 +28,10 @@ function Post() {
       commentBody: newComment,
       PostId: id,
     }).then((response) => {
-      setListOfComments(response.data);
+      const commentToAdd = {commentBody: newComment}
+      setListOfComments([...listOfcomments, commentToAdd]);
+      // Après le clique on va vider la valeur de l'input en mettant une string vide
+      setNewComment("");
     });
   };
 
@@ -44,6 +47,7 @@ function Post() {
           <input
             type="text"
             placeholder="Commentaire..."
+            value={newComment}
             onChange={(e) => {
               setNewComment(e.target.value);
             }}
