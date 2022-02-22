@@ -33,18 +33,18 @@ router.post("/login", async (req, res) => {
 
   bcrypt.compare(password, user.password).then((valid) => {
     if (!valid) res.json({ error: "Mot de passe incorrect" });
-
-    res.json('Connecté')
+    req.session.user = user;
+    res.json("Connecté");
   });
 });
 
-// Récupération d'un utilisateur avec l'id
-// router.get("/:id", async (req, res) => {
-//   const id = req.params.id;
-//   // findByPk est une fonction de sequelize qui remplace findById (Pk = Primary key)
-//   const post = await Posts.findByPk(id);
-//   res.json(post);
-// });
+router.get("/login", async (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false, user: req.session.user });
+  }
+});
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;

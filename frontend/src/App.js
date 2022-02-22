@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div className="header">
+        <div className="header"> 
           <Link to="/"> Accueil</Link>
           <Link to="/submit"> Créer un post</Link>
           <Link to="/profile"> Profile</Link>
