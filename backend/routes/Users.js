@@ -5,6 +5,8 @@ const router = express.Router();
 const { Users } = require("../models");
 // bcrypt pour hasher le mot de passe de l'utilisateur
 const bcrypt = require("bcrypt");
+// Pour sécuriser les échanges d’informations (évitant ainsi l’écriture d’un code personnel pouvant donner lieu à des vulnérabilités)
+const { sign, verify } = require("jsonwebtoken");
 
 // Créer un utilisateur
 // Avec sequelyze, tout marche de façon asynchrone, on veux pouvoir attendre avant d'aller plus loin avec les requêtes
@@ -34,10 +36,12 @@ router.post("/login", async (req, res) => {
   bcrypt.compare(password, user.password).then((valid) => {
     if (!valid) res.json({ error: "Mot de passe incorrect" });
     req.session.user = user;
-    res.json("Connecté");
+    console.log(req.session.user)
+    res.json(user);
   });
 });
 
+// Pour la récupération de la session
 router.get("/login", async (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });

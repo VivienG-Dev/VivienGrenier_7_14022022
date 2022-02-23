@@ -35,6 +35,8 @@ app.use(
     cookie: {
       expires: 2 * 60 * 60 * 1000, // 2h
       httpOnly: true,
+      sameSite: "strict",
+      // secure: true,
     },
   })
 );
