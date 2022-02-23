@@ -5,7 +5,7 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // Obligatoire pour la session
-Axios.defaults.withCredentials = true;
+// Axios.defaults.withCredentials = true;
 
 function Login() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Login() {
       if (response.data.error) {
         alert(response.data.error);
       } else {
+        localStorage.setItem('accessToken', response.data)
         navigate("/");
         // console.log(response.data);
       }
@@ -31,8 +32,6 @@ function Login() {
       setLoginStatus(response.data.user.username);
     });
   }, []);
-
-  if (loginStatus) return <h2>Vous êtes déjà connecté sous {loginStatus}</h2>;
 
   return (
     <div className="createPost">

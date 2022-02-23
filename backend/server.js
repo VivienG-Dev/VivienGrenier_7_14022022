@@ -6,10 +6,11 @@ const port = 3001;
 const cors = require("cors");
 // On importe les modèles (tables mysql)
 const db = require("./models");
+
 // Pour créer une session et la garder ouverte
-const session = require("express-session");
+// const session = require("express-session");
 // Pour analyser les cookies dans les demandes de l'application
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 
 // Middlewares qu'on attribue pour gérer la requête POST venant de l'application front-end pour en extraire le corps JSON
 app.use(express.json());
@@ -22,24 +23,24 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+// app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    key: "userId",
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    maxAge: 2 * 60 * 60 * 1000, // 2h
-    cookie: {
-      expires: 2 * 60 * 60 * 1000, // 2h
-      httpOnly: true,
-      sameSite: "strict",
-      // secure: true,
-    },
-  })
-);
+// app.use(
+//   session({
+//     key: "userId",
+//     secret: "secret",
+//     resave: false,
+//     saveUninitialized: false,
+//     maxAge: 2 * 60 * 60 * 1000, // 2h
+//     cookie: {
+//       expires: 2 * 60 * 60 * 1000, // 2h
+//       httpOnly: true,
+//       sameSite: "strict",
+//       // secure: true,
+//     },
+//   })
+// );
 
 // Routers
 const postRouter = require("./routes/Posts");

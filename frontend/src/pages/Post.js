@@ -23,15 +23,27 @@ function Post() {
     });
   }, []);
 
-  const onSubmit = () => {
-    Axios.post("http://localhost:3001/comments", {
-      commentBody: newComment,
-      PostId: id,
-    }).then((response) => {
-      const commentToAdd = {commentBody: newComment}
-      setListOfComments([...listOfcomments, commentToAdd]);
-      // Après le clique on va vider la valeur de l'input en mettant une string vide
-      setNewComment("");
+  const addComment = () => {
+    Axios.post(
+      "http://localhost:3001/comments",
+      {
+        commentBody: newComment,
+        PostId: id,
+      },
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }
+    ).then((response) => {
+      if (response.data.error) {
+        alert("Vous devez être connecté pour laisser un commentaire")
+      } else {
+        const commentToAdd = { commentBody: newComment, username: response.data.username };
+        setListOfComments([...listOfcomments, commentToAdd]);
+        // Après le clique on va vider la valeur de l'input en mettant une string vide
+        setNewComment("");
+      }
     });
   };
 
@@ -52,7 +64,7 @@ function Post() {
               setNewComment(e.target.value);
             }}
           />
-          <button onClick={onSubmit}> Ajouter un commentaire</button>
+          <button onClick={addComment}> Ajouter un commentaire</button>
           <div className="listOfComments">
             {listOfcomments &&
               listOfcomments.length > 0 &&
@@ -60,6 +72,7 @@ function Post() {
                 return (
                   <div className="post" key={index}>
                     <p>{comment.commentBody}</p>
+                    <span>{comment.username}</span>
                   </div>
                 );
               })}

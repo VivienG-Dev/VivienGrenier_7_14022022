@@ -35,20 +35,23 @@ router.post("/login", async (req, res) => {
 
   bcrypt.compare(password, user.password).then((valid) => {
     if (!valid) res.json({ error: "Mot de passe incorrect" });
-    req.session.user = user;
-    console.log(req.session.user)
-    res.json(user);
+    const accessToken = sign(
+      { username: user.username, id: user.id },
+      "randomSecret", // A changer avec dotenv, également dans middlewares
+      { expiresIn: 300 }
+    );
+    res.json(accessToken);
   });
 });
 
 // Pour la récupération de la session
-router.get("/login", async (req, res) => {
-  if (req.session.user) {
-    res.send({ loggedIn: true, user: req.session.user });
-  } else {
-    res.send({ loggedIn: false, user: req.session.user });
-  }
-});
+// router.get("/login", async (req, res) => {
+//   if (req.session.user) {
+//     res.send({ loggedIn: true, user: req.session.user });
+//   } else {
+//     res.send({ loggedIn: false, user: req.session.user });
+//   }
+// });
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;
