@@ -38,6 +38,12 @@ function App() {
     });
   }, []);
 
+  // Fonction pour se déconnecter (à placer ailleurs si possible comme les <link>)
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState(false);
+  };
+
   return (
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
@@ -46,11 +52,13 @@ function App() {
             <Link to="/"> Accueil</Link>
             <Link to="/submit"> Créer un post</Link>
             <Link to="/profile"> Profile</Link>
-            {!authState && (
+            {!authState ? (
               <>
                 <Link to="/login"> Connexion</Link>
                 <Link to="/register"> S'inscrire</Link>
               </>
+            ) : (
+              <button onClick={logout}> Logout</button>
             )}
           </div>
           <Routes>
