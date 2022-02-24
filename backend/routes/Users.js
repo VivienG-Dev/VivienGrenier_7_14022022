@@ -42,23 +42,16 @@ router.post("/login", async (req, res) => {
       "randomSecret", // A changer avec dotenv, également dans middlewares
       { expiresIn: 300 }
     );
-    res.json(accessToken);
+    // On récupère le token ET le username ainsi que l'id lors du login pour la partie frontend
+    res.json({token: accessToken, username: username, id: user.id});
   });
 });
 
 // Pour vérifier si le token envoyé est valide
 router.get("/token", validateToken, (req, res) => {
+  // On envoie les données de l'utilisateur dans app.js
   res.json(req.user);
 });
-
-// Pour la récupération de la session
-// router.get("/login", async (req, res) => {
-//   if (req.session.user) {
-//     res.send({ loggedIn: true, user: req.session.user });
-//   } else {
-//     res.send({ loggedIn: false, user: req.session.user });
-//   }
-// });
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;

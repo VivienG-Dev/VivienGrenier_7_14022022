@@ -19,7 +19,12 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-  const [authState, setAuthState] = useState(false);
+  // On stock içi les informations récupérées par le useEffect et la route.get('/token')
+  const [authState, setAuthState] = useState({
+    username: "",
+    id: 0,
+    status: false,
+  });
 
   // Après connexion "authState = true" mais si refrech de la page sans le useEffect, "authState" retourne à false
   // On utilise alors useEffect au refrech pour vérifier s'il y a un token dans le localStorage et passer authState à true
@@ -31,9 +36,16 @@ function App() {
       },
     }).then((response) => {
       if (response.data.error) {
-        setAuthState(false);
+        // Afin de ne pas copier coller le code en provenance du useState, on va destructurer
+        // Donc faire une copie de l'objet dans authState et modifier uniquement le status
+        setAuthState({ ...authState, status: false });
       } else {
-        setAuthState(true);
+        // Içi on a besoin de tout modifier donc pas besoin de destructurer
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
       }
     });
   }, []);
@@ -41,7 +53,8 @@ function App() {
   // Fonction pour se déconnecter (à placer ailleurs si possible comme les <link>)
   const logout = () => {
     localStorage.removeItem("accessToken");
-    setAuthState(false);
+    // Lors du logout on a besoin de retrouver le state d'origine (voir plus haut), on reprend donc l'objet d'origine
+    setAuthState({ ...authState, status: false });
   };
 
   return (
@@ -52,13 +65,16 @@ function App() {
             <Link to="/"> Accueil</Link>
             <Link to="/submit"> Créer un post</Link>
             <Link to="/profile"> Profile</Link>
-            {!authState ? (
+            {!authState.status ? (
               <>
                 <Link to="/login"> Connexion</Link>
                 <Link to="/register"> S'inscrire</Link>
               </>
             ) : (
-              <button onClick={logout}> Logout</button>
+              <>
+                <button onClick={logout}> Logout</button>
+                <span>Welcome {authState.username}</span>
+              </>
             )}
           </div>
           <Routes>

@@ -28,5 +28,11 @@ router.post("/", validateToken, async (req, res) => {
   res.json(comment);
 });
 
+// Pour supprimer un commentaire
+// On utilise le middleware validateToken car on ne souhaite pas que n'importe qui puisse supprimer un commentaire
+router.delete('/:commentId', validateToken, async (req, res) => {
+
+})
+
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;
