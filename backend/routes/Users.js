@@ -7,6 +7,8 @@ const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 // Pour sécuriser les échanges d’informations (évitant ainsi l’écriture d’un code personnel pouvant donner lieu à des vulnérabilités)
 const { sign, verify } = require("jsonwebtoken");
+// On importe le middleware de vérification de connexion JWT
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 // Créer un utilisateur
 // Avec sequelyze, tout marche de façon asynchrone, on veux pouvoir attendre avant d'aller plus loin avec les requêtes
@@ -42,6 +44,11 @@ router.post("/login", async (req, res) => {
     );
     res.json(accessToken);
   });
+});
+
+// Pour vérifier si le token envoyé est valide
+router.get("/token", validateToken, (req, res) => {
+  res.json(req.user);
 });
 
 // Pour la récupération de la session
