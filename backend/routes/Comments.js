@@ -30,9 +30,18 @@ router.post("/", validateToken, async (req, res) => {
 
 // Pour supprimer un commentaire
 // On utilise le middleware validateToken car on ne souhaite pas que n'importe qui puisse supprimer un commentaire
-router.delete('/:commentId', validateToken, async (req, res) => {
+router.delete("/:commentId", validateToken, async (req, res) => {
+  const commentId = req.params.commentId;
 
-})
+  // Fonction de sequelize pour supprimer
+  await Comments.destroy({
+    where: {
+      id: commentId,
+    },
+  });
+
+  res.json("Commentaire supprimé")
+});
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;
