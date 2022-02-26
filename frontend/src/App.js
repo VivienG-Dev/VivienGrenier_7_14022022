@@ -7,6 +7,16 @@ import {
   Link,
   BrowserRouter,
 } from "react-router-dom";
+import {
+  Button,
+  Alert,
+  Breadcrumb,
+  Card,
+  Navbar,
+  Container,
+  Nav,
+} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
@@ -61,22 +71,48 @@ function App() {
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
-          <div className="header">
-            <Link to="/"> Accueil</Link>
-            <Link to="/submit"> Créer un post</Link>
-            <Link to="/profile"> Profile</Link>
-            {!authState.status ? (
-              <>
-                <Link to="/login"> Connexion</Link>
-                <Link to="/register"> S'inscrire</Link>
-              </>
-            ) : (
-              <>
-                <button onClick={logout}> Logout</button>
-                <span>Welcome {authState.username}</span>
-              </>
-            )}
-          </div>
+          <Navbar className="mb-5" bg="light" expand="lg">
+            <Container>
+              <Navbar.Brand href="#home">Groupomania</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                  <Link className="nav-link" to="/">
+                    Accueil
+                  </Link>
+                  <Link className="nav-link" to="/submit">
+                    Créer un post
+                  </Link>
+                  <Link className="nav-link" to="/profile">
+                    Profile
+                  </Link>
+                  {!authState.status && (
+                    <>
+                      <Link className="nav-link" to="/login">
+                        Connexion
+                      </Link>
+                      <Link className="nav-link" to="/register">
+                        S'inscrire
+                      </Link>
+                    </>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+              {authState.status && (
+                <Navbar.Collapse className="justify-content-end">
+                  <Navbar.Text>
+                    Connecté sous:{" "}
+                    <Link to="/profile">{authState.username}</Link>
+                  </Navbar.Text>
+                  <div className="vr mx-3" />
+                  <Button size="sm" variant="outline-danger" onClick={logout}>
+                    {" "}
+                    Se déconnecter
+                  </Button>
+                </Navbar.Collapse>
+              )}
+            </Container>
+          </Navbar>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/submit" element={<CreatePost />} />

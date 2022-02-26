@@ -5,6 +5,17 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 // Pour réaliser des redirections (anciennement useHistory)
 import { useNavigate } from "react-router-dom";
+// Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Breadcrumb,
+  Card,
+} from "react-bootstrap";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
@@ -20,16 +31,33 @@ function Home() {
 
   return (
     <div className="information">
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs={10} md={10} xl={6}>
+            {listOfPosts.map((post, index) => {
+              return (
+                <Card
+                  className="card mb-4 rounded-3 shadow-sm"
+                  border="light"
+                  key={index}
+                  onClick={() => {
+                    navigate(`/posts/${post.id}`);
+                  }}
+                >
+                  <Card.Body>
+                    <Card.Title>{post.title}</Card.Title>
+                    <Card.Text>{post.postText}</Card.Text>
+                  </Card.Body>
+                  <Card.Footer>Auteur: {post.username}</Card.Footer>
+                </Card>
+              );
+            })}
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
       {/* Comme le State est un tableau, on utilise map pour naviguer dedans */}
-      {listOfPosts.map((post, index) => {
-        return (
-          <div className="post" key={index} onClick={() => {navigate(`/posts/${post.id}`)}}>
-            <h2>{post.title}</h2>
-            <p>{post.postText}</p>
-            <span>Auteur: {post.username}</span>
-          </div>
-        );
-      })}
     </div>
   );
 }
