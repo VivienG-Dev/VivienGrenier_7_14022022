@@ -39,7 +39,11 @@ function CreatePost() {
 
   const onSubmit = (data) => {
     Axios.post("http://localhost:3001/posts/submit", data).then((response) => {
-      navigate("/");
+      if (response.data.error) {
+        alert(response.data.error)
+      } else {
+        navigate("/");
+      }
     });
   };
 

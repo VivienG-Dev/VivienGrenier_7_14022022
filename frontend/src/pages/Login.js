@@ -69,6 +69,7 @@ function Login() {
                 <input
                   className="form-control mb-4"
                   type="text"
+                  placeholder="Le nom d'utilisateur..."
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
@@ -77,6 +78,7 @@ function Login() {
                 <input
                   className="form-control mb-4"
                   type="password"
+                  placeholder="Le mot de passe..."
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}

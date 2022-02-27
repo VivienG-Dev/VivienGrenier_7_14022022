@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
   const accessToken = req.header("accessToken");
 
   if (!accessToken)
-    return res.json({ error: "L'utilisateur n'est pas connecté" });
+    return res.json({ error: "Vous devez être connecté" });
 
   try {
     const validToken = verify(accessToken, "randomSecret");
@@ -16,7 +16,7 @@ const validateToken = (req, res, next) => {
       return next();
     }
   } catch (err) {
-    return res.json({ error: "L'utilisateur n'est pas connecté" });
+    return res.json({ error: "Vous devez être connecté" });
   }
 };
 

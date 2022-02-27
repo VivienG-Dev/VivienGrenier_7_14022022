@@ -53,7 +53,7 @@ function Register() {
                 validationSchema={validationSchema}
               >
                 <Form className="formContainer">
-                  <label>Nom</label>
+                  <label>Utilisateur</label>
                   <ErrorMessage name="username" component="span" />
                   <Field
                     className="form-control mb-3"

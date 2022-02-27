@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 // On va déstructurer le modèle Posts, celui dont on a besoin
 const { Posts } = require("../models");
+// On importe le middleware de vérification de connexion JWT
+const { validateToken } = require("../middlewares/AuthMiddlewares");
 
 // Récupération de tous les articles
 router.get("/", async (req, res) => {
@@ -13,9 +15,13 @@ router.get("/", async (req, res) => {
 
 // Poster un article
 // Avec sequelyze, tout marche de façon asynchrone, on veux pouvoir attendre avant d'aller plus loin avec les requêtes
-router.post("/submit", async (req, res) => {
+router.post("/submit", validateToken, async (req, res) => {
   // On récupère les données du body
   const post = req.body;
+  const username = req.user.username;
+
+  if (!username)
+    res.json({ error: "Vous devez être connecté pour laisser un commentaire" });
   // La fonction create nous arrive de sequelize et nous permet d'envoyer les données d'après le modèle dans la table Posts de la BDD
   await Posts.create(post);
   res.send(post);
