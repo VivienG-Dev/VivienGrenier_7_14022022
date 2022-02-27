@@ -7,6 +7,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
+// Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Breadcrumb,
+  Card,
+} from "react-bootstrap";
 
 function CreatePost() {
   const navigate = useNavigate();
@@ -34,34 +45,59 @@ function CreatePost() {
   };
 
   return (
-    <div className="createPost">
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        <Form className="formContainer">
-          <label>Titre: </label>
-          <ErrorMessage name="title" component="span" />
-          <Field id="inputCreatePost" name="title" placeholder="Le titre" />
-          <label>Contenu: </label>
-          <ErrorMessage name="postText" component="span" />
-          <Field
-            id="inputCreatePost"
-            name="postText"
-            placeholder="Le contenu du post"
-          />
-          <label>Auteur: </label>
-          <ErrorMessage name="username" component="span" />
-          <Field
-            id="inputCreatePost"
-            name="username"
-            placeholder="L'auteur du post"
-          />
-          <button type="submit"> Envoyer</button>
-        </Form>
-      </Formik>
-    </div>
+    <Container>
+      <Row>
+        <Col></Col>
+        <Col xs={10} md={10} xl={6}>
+          <Card className="card rounded-3 shadow border-0">
+            <Card.Body>
+              <Card.Title className="text-center mb-4">
+                Poster un article
+              </Card.Title>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={validationSchema}
+              >
+                <Form className="formContainer">
+                  <label>Titre</label>
+                  <ErrorMessage name="title" component="span" />
+                  <Field
+                    className="form-control mb-3"
+                    id="inputCreatePost"
+                    name="title"
+                    placeholder="Le titre"
+                  />
+                  <label>Contenu</label>
+                  <ErrorMessage name="postText" component="span" />
+                  <Field
+                    as="textarea"
+                    rows="5"
+                    className="form-control mb-3"
+                    id="inputCreatePost"
+                    name="postText"
+                    placeholder="Le contenu du post"
+                  />
+                  <label>Auteur</label>
+                  <ErrorMessage name="username" component="span" />
+                  <Field
+                    className="form-control mb-3"
+                    id="inputCreatePost"
+                    name="username"
+                    placeholder="L'auteur du post"
+                  />
+                  <Button className="btn btn-danger" type="submit">
+                    {" "}
+                    Envoyer
+                  </Button>
+                </Form>
+              </Formik>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+    </Container>
   );
 }
 

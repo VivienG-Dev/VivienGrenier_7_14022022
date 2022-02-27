@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 // Pour réaliser des redirections (anciennement useHistory)
 import { useNavigate } from "react-router-dom";
 // Bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Container,
   Row,
@@ -30,7 +29,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="information">
+    <>
       <Container>
         <Row>
           <Col></Col>
@@ -38,18 +37,21 @@ function Home() {
             {listOfPosts.map((post, index) => {
               return (
                 <Card
-                  className="card mb-4 rounded-3 shadow-sm"
+                  className="card mb-4 rounded-3 shadow"
                   border="light"
                   key={index}
-                  onClick={() => {
-                    navigate(`/posts/${post.id}`);
-                  }}
                 >
                   <Card.Body>
                     <Card.Title>{post.title}</Card.Title>
                     <Card.Text>{post.postText}</Card.Text>
+                    <Button className="btn btn-danger"
+                      onClick={() => {
+                        navigate(`/posts/${post.id}`);
+                      }}
+                    >
+                      Lire la suite
+                    </Button>
                   </Card.Body>
-                  <Card.Footer>Auteur: {post.username}</Card.Footer>
                 </Card>
               );
             })}
@@ -58,7 +60,7 @@ function Home() {
         </Row>
       </Container>
       {/* Comme le State est un tableau, on utilise map pour naviguer dedans */}
-    </div>
+    </>
   );
 }
 

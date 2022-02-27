@@ -7,6 +7,16 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
+// Bootstrap
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Breadcrumb,
+  Card,
+} from "react-bootstrap";
 
 function Post() {
   let { id } = useParams();
@@ -70,45 +80,75 @@ function Post() {
   };
 
   return (
-    <div className="information">
-      <div className="post">
-        <h2>{postObject.title}</h2>
-        <p>{postObject.postText}</p>
-        <span>Auteur: {postObject.username}</span>
-      </div>
-      <div className="comments">
-        <div className="addCommentContainer">
-          <input
-            type="text"
-            placeholder="Commentaire..."
-            value={newComment}
-            onChange={(e) => {
-              setNewComment(e.target.value);
-            }}
-          />
-          <button onClick={addComment}> Ajouter un commentaire</button>
-          <div className="listOfComments">
-            {listOfcomments &&
-              listOfcomments.length > 0 &&
-              listOfcomments.map((comment, index) => {
-                return (
-                  <div className="post" key={index}>
-                    <p>{comment.commentBody}</p>
-                    <span>{comment.username}</span>
-                    {authState.username === comment.username && (
-                      // Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre
-                      <button onClick={() => deleteComment(comment.id)}>
-                        {" "}
-                        Supprimer
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-    </div>
+    <Container>
+      <Row className="mb-3">
+        <Col></Col>
+        <Col xs={10} md={10} xl={8}>
+          <Card className="card rounded-3 shadow border-0">
+            <Card.Body>
+              <div className="post">
+                <Card.Title as="h2">{postObject.title}</Card.Title>
+                <Card.Text>{postObject.postText}</Card.Text>
+                <div className="text-end"><span className="fw-light">Auteur: {postObject.username}</span></div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col></Col>
+        <Col xs={10} md={10} xl={8}>
+          <Card className="card rounded-3 shadow border-0">
+            <Card.Body>
+              <Card.Title>Commentaires</Card.Title>
+              <div className="addCommentContainer">
+                <textarea
+                  rows="4"
+                  className="form-control mb-4"
+                  type="text"
+                  placeholder="Commentaire..."
+                  value={newComment}
+                  onChange={(e) => {
+                    setNewComment(e.target.value);
+                  }}
+                />
+                <Button className="btn btn-danger" onClick={addComment}>
+                  {" "}
+                  Ajouter un commentaire
+                </Button>
+                <div>
+                  {listOfcomments &&
+                    listOfcomments.length > 0 &&
+                    listOfcomments.map((comment, index) => {
+                      return (
+                        <Card.Body
+                          className="my-3 border rounded-3 "
+                          key={index}
+                        >
+                          <Card.Text>{comment.commentBody}</Card.Text>
+                          <div className="text-end"><span className="fw-light">Auteur: {comment.username}</span></div>
+                          {authState.username === comment.username && (
+                            // Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => deleteComment(comment.id)}
+                            >
+                              {" "}
+                              X
+                            </Button>
+                          )}
+                        </Card.Body>
+                      );
+                    })}
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+    </Container>
   );
 }
 

@@ -7,6 +7,16 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
+// Bootstrap
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Breadcrumb,
+  Card,
+} from "react-bootstrap";
 
 function Register() {
   const navigate = useNavigate();
@@ -32,32 +42,48 @@ function Register() {
   };
 
   return (
-    <div className="createPost">
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        <Form className="formContainer">
-          <label>Nom: </label>
-          <ErrorMessage name="username" component="span" />
-          <Field
-            id="inputCreatePost"
-            name="username"
-            placeholder="Le nom d'utilisateur..."
-          />
-          <label>Mot de passe: </label>
-          <ErrorMessage name="password" component="span" />
-          <Field
-            id="inputCreatePost"
-            type="password"
-            name="password"
-            placeholder="Votre mot de passe..."
-          />
-          <button type="submit"> S'inscrire</button>
-        </Form>
-      </Formik>
-    </div>
+    <Container>
+      <Row>
+        <Col></Col>
+        <Col xs={10} md={10} xl={6}>
+          <Card className="card rounded-3 shadow border-0">
+            <Card.Body>
+              <Card.Title className="text-center mb-4">Inscription</Card.Title>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={validationSchema}
+              >
+                <Form className="formContainer">
+                  <label>Nom</label>
+                  <ErrorMessage name="username" component="span" />
+                  <Field
+                    className="form-control mb-3"
+                    id="inputCreatePost"
+                    name="username"
+                    placeholder="Le nom d'utilisateur..."
+                  />
+                  <label>Mot de passe</label>
+                  <ErrorMessage name="password" component="span" />
+                  <Field
+                    className="form-control mb-4"
+                    id="inputCreatePost"
+                    type="password"
+                    name="password"
+                    placeholder="Votre mot de passe..."
+                  />
+                  <Button type="submit" className="btn btn-danger">
+                    {" "}
+                    S'inscrire
+                  </Button>
+                </Form>
+              </Formik>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+    </Container>
   );
 }
 

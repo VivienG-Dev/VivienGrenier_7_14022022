@@ -71,9 +71,18 @@ function App() {
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
-          <Navbar className="mb-5" bg="light" expand="lg">
+          <Navbar className="mb-5 shadow-sm" bg="white" expand="lg">
             <Container>
-              <Navbar.Brand href="#home">Groupomania</Navbar.Brand>
+              <Navbar.Brand className="d-flex align-items-center" href="/">
+                <img
+                  src="../icon.svg"
+                  alt=""
+                  width="40"
+                  height="40"
+                  className="d-inline-block align-top"
+                ></img>
+                Groupomania
+              </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
@@ -106,7 +115,6 @@ function App() {
                   </Navbar.Text>
                   <div className="vr mx-3" />
                   <Button size="sm" variant="outline-danger" onClick={logout}>
-                    {" "}
                     Se déconnecter
                   </Button>
                 </Navbar.Collapse>
