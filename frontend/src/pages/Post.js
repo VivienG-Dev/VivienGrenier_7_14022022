@@ -8,15 +8,7 @@ import { useParams } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Alert,
-  Breadcrumb,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 
 function Post() {
   let { id } = useParams();
@@ -26,6 +18,8 @@ function Post() {
   const [newComment, setNewComment] = useState("");
   // On utilise "authState" et non "setAuthState" car on récupère déjà les informations dont on va avoir besoin lors du login (içi l'Id)
   const { authState } = useContext(AuthContext);
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/posts/${id}`).then((response) => {
@@ -51,7 +45,9 @@ function Post() {
       }
     ).then((response) => {
       if (response.data.error) {
-        alert("Vous devez être connecté pour laisser un commentaire");
+        // alert(response.data.error);
+        setAlert(true);
+        setAlertMessage(response.data.error);
       } else {
         const commentToAdd = {
           commentBody: newComment,
@@ -89,7 +85,11 @@ function Post() {
               <div className="post">
                 <Card.Title as="h2">{postObject.title}</Card.Title>
                 <Card.Text>{postObject.postText}</Card.Text>
-                <div className="text-end"><span className="fw-light">Auteur: {postObject.username}</span></div>
+                <div className="text-end">
+                  <span className="fw-light">
+                    Auteur: {postObject.username}
+                  </span>
+                </div>
               </div>
             </Card.Body>
           </Card>
@@ -113,6 +113,17 @@ function Post() {
                     setNewComment(e.target.value);
                   }}
                 />
+                {/* Alert si l'utilisateur n'est pas connecté */}
+                {alert && (
+                  <Alert
+                    variant="danger"
+                    onClose={() => setAlert(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>Une erreur est apparue !</Alert.Heading>
+                    <p>{alertMessage}</p>
+                  </Alert>
+                )}
                 <Button className="btn btn-danger" onClick={addComment}>
                   {" "}
                   Ajouter un commentaire
@@ -127,7 +138,11 @@ function Post() {
                           key={index}
                         >
                           <Card.Text>{comment.commentBody}</Card.Text>
-                          <div className="text-end"><span className="fw-light">Auteur: {comment.username}</span></div>
+                          <div className="text-end">
+                            <span className="fw-light">
+                              Auteur: {comment.username}
+                            </span>
+                          </div>
                           {authState.username === comment.username && (
                             // Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre
                             <Button

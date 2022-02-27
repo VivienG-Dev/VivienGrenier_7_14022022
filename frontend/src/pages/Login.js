@@ -12,7 +12,6 @@ import {
   Col,
   Button,
   Alert,
-  Breadcrumb,
   Card,
 } from "react-bootstrap";
 
@@ -24,12 +23,15 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthState } = useContext(AuthContext);
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const login = () => {
     const data = { username: username, password: password };
     Axios.post("http://localhost:3001/auth/login", data).then((response) => {
       if (response.data.error) {
-        alert(response.data.error);
+        setAlert(true);
+        setAlertMessage(response.data.error);
       } else {
         localStorage.setItem("accessToken", response.data.token);
         setAuthState({
@@ -51,6 +53,17 @@ function Login() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <Card.Title className="text-center mb-4">Connexion</Card.Title>
+              {/* Alert si l'utilisateur n'est pas connecté */}
+              {alert && (
+                  <Alert
+                    variant="danger"
+                    onClose={() => setAlert(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>Une erreur est apparue !</Alert.Heading>
+                    <p>{alertMessage}</p>
+                  </Alert>
+                )}
               <div className="createPost">
                 <label>Utilisateur</label>
                 <input

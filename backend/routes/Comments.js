@@ -21,11 +21,20 @@ router.get("/:postId", async (req, res) => {
 // Poster un commentaire (on ajoute le middleware JWT (validateToken))
 router.post("/", validateToken, async (req, res) => {
   const comment = req.body;
+  // console.log(comment.commentBody)
   const username = req.user.username;
   // On ajoute le champ "username" à l'objet "comment". username sera ajouté dans la BDD lors de l'envoie
   comment.username = username;
-  await Comments.create(comment);
-  res.json(comment);
+
+  if (!username)
+    res.json({ error: "Vous devez être connecté pour laisser un commentaire" });
+
+  if (comment.commentBody) {
+    await Comments.create(comment);
+    res.json(comment);
+  } else {
+    res.json({ error: "Le message est vide" });
+  }
 });
 
 // Pour supprimer un commentaire
@@ -40,7 +49,7 @@ router.delete("/:commentId", validateToken, async (req, res) => {
     },
   });
 
-  res.json("Commentaire supprimé")
+  res.json("Commentaire supprimé");
 });
 
 // On exporte router pour pouvoir l'utiliser dans server.js
