@@ -87,22 +87,25 @@ function App() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Link className="nav-link" to="/">
-                    Accueil
-                  </Link>
-                  <Link className="nav-link" to="/submit">
-                    Créer un post
-                  </Link>
-                  <Link className="nav-link" to="/profile">
-                    Profile
-                  </Link>
-                  {!authState.status && (
+                  {!authState.status ? (
                     <>
                       <Link className="nav-link" to="/login">
                         Connexion
                       </Link>
                       <Link className="nav-link" to="/register">
                         S'inscrire
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link className="nav-link" to="/">
+                        Accueil
+                      </Link>
+                      <Link className="nav-link" to="/submit">
+                        Créer un post
+                      </Link>
+                      <Link className="nav-link" to="/profile">
+                        Profile
                       </Link>
                     </>
                   )}
