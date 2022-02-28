@@ -4,7 +4,7 @@ import Axios from "axios";
 // useEffect aura pour effet de se déclencher sur le cycle de vie du montage et de la mise à jour (componentDidMount/componentDidUpdate)
 import { useContext, useEffect, useState } from "react";
 // Pour extraire l'ID du post, à partir de l'URL (équivalent JS de new URL(location.href).searchParams.get(param);)
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
@@ -12,6 +12,7 @@ import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 
 function Post() {
   let { id } = useParams();
+  const navigate = useNavigate();
   // On crée un state pour utiliser les données du post
   const [postObject, setPostObject] = useState({});
   const [listOfcomments, setListOfComments] = useState([]);
@@ -75,6 +76,16 @@ function Post() {
     });
   };
 
+  const deletePost = (postId) => {
+    Axios.delete(`http://localhost:3001/posts/${postId}`, {
+      headers: {
+        accessToken: localStorage.getItem("accessToken"),
+      },
+    }).then(() => {
+      navigate("/");
+    });
+  };
+
   return (
     <Container>
       <Row className="mb-3">
@@ -89,6 +100,9 @@ function Post() {
                   <span className="fw-light">
                     Auteur: {postObject.username}
                   </span>
+                  {authState.username === postObject.username && (
+                    <Button className="btn btn-danger" onClick={() => deletePost(postObject.id)}> Supprimer</Button>
+                  )}
                 </div>
               </div>
             </Card.Body>

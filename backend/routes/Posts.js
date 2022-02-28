@@ -34,5 +34,19 @@ router.get("/:id", async (req, res) => {
   res.json(post);
 });
 
+// Supprimer un post
+router.delete('/:postId', validateToken, async (req, res) => {
+  const postId = req.params.postId;
+
+  // Fonction de sequelize pour supprimer
+  await Posts.destroy({
+    where: {
+      id: postId,
+    },
+  });
+
+  res.json("Article supprimé !");
+})
+
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;
