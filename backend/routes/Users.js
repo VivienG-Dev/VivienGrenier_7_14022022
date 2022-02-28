@@ -6,7 +6,7 @@ const { Users } = require("../models");
 // bcrypt pour hasher le mot de passe de l'utilisateur
 const bcrypt = require("bcrypt");
 // Pour sécuriser les échanges d’informations (évitant ainsi l’écriture d’un code personnel pouvant donner lieu à des vulnérabilités)
-const { sign, verify } = require("jsonwebtoken");
+const { sign } = require("jsonwebtoken");
 // On importe le middleware de vérification de connexion JWT
 const { validateToken } = require("../middlewares/AuthMiddlewares");
 
@@ -39,11 +39,10 @@ router.post("/login", async (req, res) => {
     if (!valid) res.json({ error: "Mot de passe incorrect" });
     const accessToken = sign(
       { username: user.username, id: user.id },
-      "randomSecret", // A changer avec dotenv, également dans middlewares
-      { expiresIn: 300 }
+      "randomSecret" // A changer avec dotenv, également dans middlewares
     );
     // On récupère le token ET le username ainsi que l'id lors du login pour la partie frontend
-    res.json({token: accessToken, username: username, id: user.id});
+    res.json({ token: accessToken, username: username, id: user.id });
   });
 });
 

@@ -100,7 +100,7 @@ function Post() {
                   <span className="fw-light">
                     Auteur: {postObject.username}
                   </span>
-                  {authState.username === postObject.username && (
+                  {authState.id === postObject.UserId && (
                     <Button className="btn btn-danger" onClick={() => deletePost(postObject.id)}> Supprimer</Button>
                   )}
                 </div>
