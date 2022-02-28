@@ -34,7 +34,8 @@ function Home() {
         <Row>
           <Col></Col>
           <Col xs={10} md={10} xl={6}>
-            {listOfPosts.map((post, index) => {
+            {/* slice permet de retourner un nouveau tableau et le reverse l'inverser, le but étant d'avoir le dernier post en haut de la page */}
+            {listOfPosts.slice(0).reverse().map((post, index) => {
               return (
                 <Card
                   className="card mb-4 rounded-3 shadow"

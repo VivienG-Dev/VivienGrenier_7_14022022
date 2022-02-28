@@ -23,6 +23,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
+import PageNotFound from "./pages/PageNotFound";
 // Pour activer le re-render lors de la connexion d'un utilisateur et ainsi afficher ce que l'on desire en fonction des données récoltées
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
@@ -128,6 +129,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/posts/:id" element={<Post />} />
+            <Route path="*" exact element={<PageNotFound />} />
           </Routes>
         </Router>
       </AuthContext.Provider>
