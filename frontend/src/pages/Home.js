@@ -27,7 +27,7 @@ function Home() {
   // Quand la page est crée, la logique écrite dans useEffect est activé une fois seulement dans ce cas précis (sauf si on rempli la dépendance dans [])
   // Avec AuthContext on importe authState.status présent dans app.js ce qui permet de rediriger l'utilisateur s'il n'est pas connecté
   useEffect(() => {
-    if (!authState.status) {
+    if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     } else {
       Axios.get("http://localhost:3001/posts").then((response) => {
