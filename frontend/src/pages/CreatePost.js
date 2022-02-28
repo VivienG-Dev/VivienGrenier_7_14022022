@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect } from "react";
+import { useState, useContext } from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 // Formik est une librairie open source qui permet de contruire des formulaires plus facilement, de gérer les erreurs etc...
@@ -8,26 +8,30 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
+// Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
+import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Alert,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 
 function CreatePost() {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  // On utilise "authState" et non "setAuthState" car on récupère déjà les informations dont on va avoir besoin lors du login (içi l'Id)
+  const { authState } = useContext(AuthContext);
 
   const initialValues = {
     title: "",
     postText: "",
   };
+
+  // Pour rediriger l'utilisateur s'il n'est pas connecté
+  // Avec AuthContext on importe authState.status présent dans app.js ce qui permet de rediriger l'utilisateur s'il n'est pas connecté
+  useEffect(() => {
+    if (!authState.status) {
+      navigate("/login");
+    }
+  }, []);
 
   // Avec Yup et le Schema nous allons spécifier ce dont nous avons besoin dans les champs (validation)
   const validationSchema = Yup.object().shape({
@@ -46,8 +50,8 @@ function CreatePost() {
     }).then((response) => {
       if (response.data.error) {
         // alert(response.data.error)
-        setAlert(true)
-        setAlertMessage(response.data.error)
+        setAlert(true);
+        setAlertMessage(response.data.error);
       } else {
         navigate("/");
       }
@@ -66,15 +70,15 @@ function CreatePost() {
               </Card.Title>
               {/* Alert si l'utilisateur n'est pas connecté */}
               {alert && (
-                  <Alert
-                    variant="danger"
-                    onClose={() => setAlert(false)}
-                    dismissible
-                  >
-                    <Alert.Heading>Une erreur est apparue !</Alert.Heading>
-                    <p>{alertMessage}</p>
-                  </Alert>
-                )}
+                <Alert
+                  variant="danger"
+                  onClose={() => setAlert(false)}
+                  dismissible
+                >
+                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
+                  <p>{alertMessage}</p>
+                </Alert>
+              )}
               <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}

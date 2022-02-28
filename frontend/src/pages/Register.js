@@ -44,7 +44,7 @@ function Register() {
       <Row>
         <Col></Col>
         <Col xs={10} md={10} xl={6}>
-          <Card className="card rounded-3 shadow border-0">
+          <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
               <Card.Title className="text-center mb-4">Inscription</Card.Title>
               <Formik
@@ -78,6 +78,9 @@ function Register() {
               </Formik>
             </Card.Body>
           </Card>
+          <div className="text-center">
+            <a className="fw-lighter nav-link" href="/login">J'ai déjà un compte</a>
+          </div>
         </Col>
         <Col></Col>
       </Row>

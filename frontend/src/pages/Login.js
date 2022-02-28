@@ -6,14 +6,7 @@ import { useNavigate } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Alert,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 
 // Obligatoire pour la session
 // Axios.defaults.withCredentials = true;
@@ -50,20 +43,20 @@ function Login() {
       <Row>
         <Col></Col>
         <Col xs={10} md={10} xl={6}>
-          <Card className="card rounded-3 shadow border-0">
+          <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
               <Card.Title className="text-center mb-4">Connexion</Card.Title>
               {/* Alert si l'utilisateur n'est pas connecté */}
               {alert && (
-                  <Alert
-                    variant="danger"
-                    onClose={() => setAlert(false)}
-                    dismissible
-                  >
-                    <Alert.Heading>Une erreur est apparue !</Alert.Heading>
-                    <p>{alertMessage}</p>
-                  </Alert>
-                )}
+                <Alert
+                  variant="danger"
+                  onClose={() => setAlert(false)}
+                  dismissible
+                >
+                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
+                  <p>{alertMessage}</p>
+                </Alert>
+              )}
               <div className="createPost">
                 <label>Utilisateur</label>
                 <input
@@ -90,6 +83,9 @@ function Login() {
               </div>
             </Card.Body>
           </Card>
+          <div className="text-center">
+            <a className="fw-lighter nav-link" href="/register">Je n'ai pas de compte</a>
+          </div>
         </Col>
         <Col></Col>
       </Row>
