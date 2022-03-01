@@ -23,10 +23,10 @@ router.post("/", validateToken, async (req, res) => {
   const comment = req.body;
   // console.log(comment.commentBody)
   const username = req.user.username;
-  // const Id = req.user.id;
-  // On ajoute le champ "username" à l'objet "comment". username sera ajouté dans la BDD lors de l'envoie
+  const Id = req.user.id;
+  // On ajoute "username" et l'Id utilisateur à l'objet "comment". username et l'Id seront ajoutés dans la BDD lors de l'envoie (dans la colonne username et UserId)
   comment.username = username;
-  // comment.UserId = Id;
+  comment.UserId = Id;
 
   if (!username)
     res.json({ error: "Vous devez être connecté pour laisser un commentaire" });

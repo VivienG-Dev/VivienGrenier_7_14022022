@@ -11,5 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // Posts.belongsTo(models.Users) = chaque commentaire est accosié à un model users afin de récupérer l'Id du compte utilisateur
+  // Permet de créer la colonne UserId dans la table Comments
+  Comments.associate = (models) => {
+    Comments.belongsTo(models.Users, {
+    });
+  };
   return Comments;
 };
