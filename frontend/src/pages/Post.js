@@ -157,7 +157,7 @@ function Post() {
                               Auteur: {comment.username}
                             </span>
                           </div>
-                          {authState.username === comment.username && (
+                          {authState.id === comment.UserId && (
                             // Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre
                             <Button
                               className="btn btn-danger"
