@@ -101,7 +101,25 @@ function Post() {
                     Auteur: {postObject.username}
                   </span>
                   {authState.id === postObject.UserId && (
-                    <Button className="btn btn-danger" onClick={() => deletePost(postObject.id)}> Supprimer</Button>
+                    <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                      <Button
+                        variant="outline-success"
+                        size="sm"
+                        className="me-md-2"
+                        onClick={() => deletePost(postObject.id)}
+                      >
+                        {" "}
+                        Modifier
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => deletePost(postObject.id)}
+                      >
+                        {" "}
+                        Supprimer
+                      </Button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -116,7 +134,7 @@ function Post() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <Card.Title>Commentaires</Card.Title>
-              <div className="addCommentContainer">
+              <>
                 <textarea
                   rows="4"
                   className="form-control mb-4"
@@ -138,11 +156,13 @@ function Post() {
                     <p>{alertMessage}</p>
                   </Alert>
                 )}
-                <Button className="btn btn-danger" onClick={addComment}>
-                  {" "}
-                  Ajouter un commentaire
-                </Button>
-                <div>
+                <div className="d-grid gap-2 col-6 mx-auto">
+                  <Button variant="danger" onClick={addComment}>
+                    {" "}
+                    Ajouter un commentaire
+                  </Button>
+                </div>
+                <div className="commentContainer">
                   {listOfcomments &&
                     listOfcomments.length > 0 &&
                     listOfcomments.map((comment, index) => {
@@ -158,20 +178,31 @@ function Post() {
                             </span>
                           </div>
                           {authState.id === comment.UserId && (
-                            // Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre
-                            <Button
-                              className="btn btn-danger"
-                              onClick={() => deleteComment(comment.id)}
-                            >
-                              {" "}
-                              X
-                            </Button>
+                            <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                              {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
+                              <Button
+                                variant="outline-success"
+                                size="sm"
+                                onClick={() => deleteComment(comment.id)}
+                              >
+                                {" "}
+                                Modifier
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => deleteComment(comment.id)}
+                              >
+                                {" "}
+                                Supprimer
+                              </Button>
+                            </div>
                           )}
                         </Card.Body>
                       );
                     })}
                 </div>
-              </div>
+              </>
             </Card.Body>
           </Card>
         </Col>

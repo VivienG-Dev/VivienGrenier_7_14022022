@@ -1,21 +1,7 @@
 import "./App.css";
 // React Router Dom naviguer entre les différents composants, changer l'url, modifier l'historique du navigateur, ajout de routes dynamique...
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-  BrowserRouter,
-} from "react-router-dom";
-import {
-  Button,
-  Alert,
-  Breadcrumb,
-  Card,
-  Navbar,
-  Container,
-  Nav,
-} from "react-bootstrap";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Button, Navbar, Container, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -76,13 +62,11 @@ function App() {
             <Container>
               <Navbar.Brand className="d-flex align-items-center" href="/">
                 <img
-                  src="../icon.svg"
-                  alt=""
-                  width="40"
-                  height="40"
+                  src="../icon-left-font.png"
+                  alt="Groupomania"
+                  height="35"
                   className="d-inline-block align-top"
                 ></img>
-                Groupomania
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -110,19 +94,19 @@ function App() {
                     </>
                   )}
                 </Nav>
+                {authState.status && (
+                  <Nav className="justify-content-end">
+                    <Navbar.Text>
+                      Connecté sous:{" "}
+                      <Link to="/profile">{authState.username}</Link>
+                    </Navbar.Text>
+                    <div className="vr mx-3" />
+                    <Button size="sm" variant="outline-danger" onClick={logout}>
+                      Se déconnecter
+                    </Button>
+                  </Nav>
+                )}
               </Navbar.Collapse>
-              {authState.status && (
-                <Navbar.Collapse className="justify-content-end">
-                  <Navbar.Text>
-                    Connecté sous:{" "}
-                    <Link to="/profile">{authState.username}</Link>
-                  </Navbar.Text>
-                  <div className="vr mx-3" />
-                  <Button size="sm" variant="outline-danger" onClick={logout}>
-                    Se déconnecter
-                  </Button>
-                </Navbar.Collapse>
-              )}
             </Container>
           </Navbar>
           <Routes>

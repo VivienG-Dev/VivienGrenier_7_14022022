@@ -44,6 +44,18 @@ function Register() {
       <Row>
         <Col></Col>
         <Col xs={10} md={10} xl={6}>
+          <Card className="border-0 mb-3 bg-transparent">
+          <img
+            src="../icon-above-font.png"
+            alt="Groupomania"
+          ></img>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col></Col>
+        <Col xs={10} md={10} xl={6}>
           <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
               <Card.Title className="text-center mb-4">Inscription</Card.Title>

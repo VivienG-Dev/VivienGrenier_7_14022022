@@ -43,6 +43,18 @@ function Login() {
       <Row>
         <Col></Col>
         <Col xs={10} md={10} xl={6}>
+          <Card className="border-0 mb-3 bg-transparent">
+          <img
+            src="../icon-above-font.png"
+            alt="Groupomania"
+          ></img>
+          </Card>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col></Col>
+        <Col xs={10} md={10} xl={6}>
           <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
               <Card.Title className="text-center mb-4">Connexion</Card.Title>
@@ -84,7 +96,9 @@ function Login() {
             </Card.Body>
           </Card>
           <div className="text-center">
-            <a className="fw-lighter nav-link" href="/register">Je n'ai pas de compte</a>
+            <a className="fw-lighter nav-link" href="/register">
+              Je n'ai pas de compte
+            </a>
           </div>
         </Col>
         <Col></Col>

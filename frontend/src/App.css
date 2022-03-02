@@ -17,12 +17,6 @@ html body {
   cursor: pointer;
 } */
 
-.navbar {
-  height: 4rem;
-  color: white;
-  /* background: #eb5a77; */
-}
-
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -41,9 +35,10 @@ html body {
   align-items: center;
 }
 
-.addCommentContainer {
+.commentContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  margin: auto;
+  width: 80%;
 }
