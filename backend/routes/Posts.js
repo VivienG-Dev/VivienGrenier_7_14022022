@@ -50,5 +50,22 @@ router.delete('/:postId', validateToken, async (req, res) => {
   res.json("Article supprimé !");
 })
 
+// Modifier un post
+router.put('/title', validateToken, async (req, res) => {
+  // On récupère les données du body (le titre et l'id)
+  const { newTitle, id } = req.body;
+  // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+  await Posts.update({title: newTitle}, {where: {id: id}});
+  res.send(newTitle);
+})
+
+router.put('/postText', validateToken, async (req, res) => {
+  // On récupère les données du body (le postText et l'id)
+  const { newPostText, id } = req.body;
+  // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+  await Posts.update({postText: newPostText}, {where: {id: id}});
+  res.send(newPostText);
+})
+
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;

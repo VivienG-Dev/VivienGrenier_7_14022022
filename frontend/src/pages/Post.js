@@ -8,7 +8,14 @@ import { useNavigate, useParams } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Card,
+} from "react-bootstrap";
 
 function Post() {
   let { id } = useParams();
@@ -86,6 +93,36 @@ function Post() {
     });
   };
 
+  const editPost = (option) => {
+    if (option === "title") {
+      let newTitle = prompt('Modifier le titre');
+      Axios.put(
+        "http://localhost:3001/posts/title",
+        { newTitle: newTitle, id: id },
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      );
+
+      setPostObject({ ...postObject, title: newTitle });
+    } else {
+      let newPostText = prompt('Modifier le contenu');
+      Axios.put(
+        "http://localhost:3001/posts/postText",
+        { newPostText: newPostText, id: id },
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      );
+
+      setPostObject({ ...postObject, postText: newPostText });
+    }
+  };
+
   // Date for post
   const datePost = new Date(postObject.createdAt);
   const newDatePost = datePost.toLocaleDateString("fr");
@@ -98,8 +135,25 @@ function Post() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <div className="post">
-                <Card.Title as="h2">{postObject.title}</Card.Title>
-                <Card.Text>{postObject.postText}</Card.Text>
+                <Card.Title
+                  as="h2"
+                  onClick={() => {
+                    if (authState.id === postObject.UserId) {
+                      editPost("title");
+                    }
+                  }}
+                >
+                  {postObject.title}
+                </Card.Title>
+                <Card.Text
+                  onClick={() => {
+                    if (authState.id === postObject.UserId) {
+                      editPost("body");
+                    }
+                  }}
+                >
+                  {postObject.postText}
+                </Card.Text>
                 <div className="text-end">
                   <span className="fw-light">
                     Auteur: {postObject.username} Date: {newDatePost}
@@ -172,7 +226,8 @@ function Post() {
                     listOfcomments.map((comment, index) => {
                       // Date for comment
                       const dateComment = new Date(comment.createdAt);
-                      const newDateComment = dateComment.toLocaleDateString("fr");
+                      const newDateComment =
+                        dateComment.toLocaleDateString("fr");
                       return (
                         <Card.Body
                           className="my-3 border rounded-3 "
