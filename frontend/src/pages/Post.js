@@ -86,6 +86,10 @@ function Post() {
     });
   };
 
+  // Date for post
+  const datePost = new Date(postObject.createdAt);
+  const newDatePost = datePost.toLocaleDateString("fr");
+
   return (
     <Container>
       <Row className="mb-3">
@@ -98,7 +102,7 @@ function Post() {
                 <Card.Text>{postObject.postText}</Card.Text>
                 <div className="text-end">
                   <span className="fw-light">
-                    Auteur: {postObject.username}
+                    Auteur: {postObject.username} Date: {newDatePost}
                   </span>
                   {authState.id === postObject.UserId && (
                     <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
@@ -166,6 +170,9 @@ function Post() {
                   {listOfcomments &&
                     listOfcomments.length > 0 &&
                     listOfcomments.map((comment, index) => {
+                      // Date for comment
+                      const dateComment = new Date(comment.createdAt);
+                      const newDateComment = dateComment.toLocaleDateString("fr");
                       return (
                         <Card.Body
                           className="my-3 border rounded-3 "
@@ -174,7 +181,7 @@ function Post() {
                           <Card.Text>{comment.commentBody}</Card.Text>
                           <div className="text-end">
                             <span className="fw-light">
-                              Auteur: {comment.username}
+                              Auteur: {comment.username} Date: {newDateComment}
                             </span>
                           </div>
                           {authState.id === comment.UserId && (
