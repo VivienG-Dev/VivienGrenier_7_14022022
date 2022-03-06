@@ -86,7 +86,7 @@ function App() {
                         Accueil
                       </Link>
                       <Link className="nav-link" to="/submit">
-                        Créer un post
+                        Poster un article
                       </Link>
                       <Link className="nav-link" to="/profile">
                         Profile

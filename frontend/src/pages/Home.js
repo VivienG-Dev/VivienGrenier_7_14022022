@@ -35,9 +35,24 @@ function Home() {
     }
   }, []);
 
+  const createPost = () => {
+    navigate("/submit");
+  }
+
   return (
     <>
       <Container>
+        <Row>
+          <Col></Col>
+          <Col xs={10} md={10} xl={6}>
+            <Card className="card mb-4 rounded-3 shadow" border="light">
+              <Card.Body>
+              <input className="form-control" placeholder="Poster un article..." onClick={createPost}></input>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col></Col>
+        </Row>
         <Row>
           <Col></Col>
           <Col xs={10} md={10} xl={6}>
