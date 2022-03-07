@@ -17,14 +17,20 @@ router.post("/", async (req, res) => {
   // Plutôt que de créer une simple variable comme dans Posts/Comments on déstructure l'objet, on récupère individuellement...
   // ...username et password car on va apporter des modifications à password (le hash), on a donc besoin de les séparer
   const { username, password } = req.body;
-  // On hash le mot de passe
-  bcrypt.hash(password, 10).then((hash) => {
-    Users.create({
-      username: username,
-      password: hash,
+  const user = await Users.findOne({ where: { username: username } });
+  // console.log(user)
+  if (user) {
+    res.json({ error: "L'utilisateur existe déjà"});
+  } else {
+    // On hash le mot de passe
+    bcrypt.hash(password, 10).then((hash) => {
+      Users.create({
+        username: username,
+        password: hash,
+      });
+      res.json("Success");
     });
-    res.json("Success");
-  });
+  }
 });
 
 // Connexion d'un utilisateur

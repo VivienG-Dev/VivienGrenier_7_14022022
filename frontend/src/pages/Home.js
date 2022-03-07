@@ -5,25 +5,14 @@ import Axios from "axios";
 import { useEffect, useState, useContext } from "react";
 // Pour réaliser des redirections (anciennement useHistory)
 import { useNavigate } from "react-router-dom";
-// Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
-import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
-  // On utilise "authState" et non "setAuthState" car on récupère déjà les informations dont on va avoir besoin lors du login (içi l'Id)
-  const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
 
   // Quand la page est crée, la logique écrite dans useEffect est activé une fois seulement dans ce cas précis (sauf si on rempli la dépendance dans [])
-  // Avec AuthContext on importe authState.status présent dans app.js ce qui permet de rediriger l'utilisateur s'il n'est pas connecté
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
@@ -37,7 +26,7 @@ function Home() {
 
   const createPost = () => {
     navigate("/submit");
-  }
+  };
 
   return (
     <>
@@ -47,7 +36,11 @@ function Home() {
           <Col xs={10} md={10} xl={6}>
             <Card className="card mb-4 rounded-3 shadow" border="light">
               <Card.Body>
-              <input className="form-control" placeholder="Poster un article..." onClick={createPost}></input>
+                <input
+                  className="form-control"
+                  placeholder="Poster un article..."
+                  onClick={createPost}
+                ></input>
               </Card.Body>
             </Card>
           </Col>

@@ -15,7 +15,9 @@ import {
   Button,
   Alert,
   Card,
+  Modal,
 } from "react-bootstrap";
+import ShowModal from "../components/Modal";
 
 function Post() {
   let { id } = useParams();
@@ -26,8 +28,12 @@ function Post() {
   const [newComment, setNewComment] = useState("");
   // On utilise "authState" et non "setAuthState" car on récupère déjà les informations dont on va avoir besoin lors du login (içi l'Id)
   const { authState } = useContext(AuthContext);
+  // Pour le message d'erreur
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  // Pour modifier le contenu d'un article
+  const [newTitle, setNewTitle] = useState("");
+  const [newPostText, setNewPostText] = useState("");
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/posts/${id}`).then((response) => {
@@ -93,34 +99,46 @@ function Post() {
     });
   };
 
-  const editPost = (option) => {
-    if (option === "title") {
-      let newTitle = prompt('Modifier le titre');
-      Axios.put(
-        "http://localhost:3001/posts/title",
-        { newTitle: newTitle, id: id },
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      );
+  const editPost = () => {
+    // if (option === "title") {
+    //   // let newTitle = prompt("Modifier le titre");
+    //   Axios.put(
+    //     "http://localhost:3001/posts/title",
+    //     { newTitle: newTitle, id: id },
+    //     {
+    //       headers: {
+    //         accessToken: localStorage.getItem("accessToken"),
+    //       },
+    //     }
+    //   );
 
-      setPostObject({ ...postObject, title: newTitle });
-    } else {
-      let newPostText = prompt('Modifier le contenu');
-      Axios.put(
-        "http://localhost:3001/posts/postText",
-        { newPostText: newPostText, id: id },
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      );
+    //   // setPostObject({ ...postObject, title: newTitle });
+    // } else {
+    //   // let newPostText = prompt("Modifier le contenu");
+    //   Axios.put(
+    //     "http://localhost:3001/posts/postText",
+    //     { newPostText: newPostText, id: id },
+    //     {
+    //       headers: {
+    //         accessToken: localStorage.getItem("accessToken"),
+    //       },
+    //     }
+    //   );
 
-      setPostObject({ ...postObject, postText: newPostText });
-    }
+    //   // setPostObject({ ...postObject, postText: newPostText });
+    // }
+
+    Axios.put(
+      "http://localhost:3001/posts/update",
+      { newPostText: newPostText, newTitle: newTitle, id: id },
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }
+    );
+    // Modification instantané du DOM
+    setPostObject({ ...postObject, postText: newPostText, title: newTitle });
   };
 
   // Date for post
@@ -135,40 +153,19 @@ function Post() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <div className="post">
-                <Card.Title
-                  as="h2"
-                  onClick={() => {
-                    if (authState.id === postObject.UserId) {
-                      editPost("title");
-                    }
-                  }}
-                >
-                  {postObject.title}
-                </Card.Title>
-                <Card.Text
-                  onClick={() => {
-                    if (authState.id === postObject.UserId) {
-                      editPost("body");
-                    }
-                  }}
-                >
-                  {postObject.postText}
-                </Card.Text>
+                <Card.Title as="h2">{postObject.title}</Card.Title>
+                <Card.Text>{postObject.postText}</Card.Text>
                 <div className="text-end">
                   <span className="fw-light">
                     Auteur: {postObject.username} Date: {newDatePost}
                   </span>
                   {authState.id === postObject.UserId && (
                     <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                      <Button
-                        variant="outline-success"
-                        size="sm"
-                        className="me-md-2"
-                        onClick={() => deletePost(postObject.id)}
-                      >
-                        {" "}
-                        Modifier
-                      </Button>
+                      <ShowModal
+                        editPost={editPost}
+                        title={setNewTitle}
+                        body={setNewPostText}
+                      />
                       <Button
                         variant="outline-danger"
                         size="sm"
@@ -194,7 +191,7 @@ function Post() {
               <Card.Title>Commentaires</Card.Title>
               <>
                 <textarea
-                  rows="4"
+                  rows="2"
                   className="form-control mb-4"
                   type="text"
                   placeholder="Commentaire..."

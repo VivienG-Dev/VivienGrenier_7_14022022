@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 // Formik est une librairie open source qui permet de contruire des formulaires plus facilement, de gérer les erreurs etc...
@@ -8,16 +9,12 @@ import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
 // Bootstrap
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
 
 function Register() {
   const navigate = useNavigate();
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const initialValues = {
     username: "",
@@ -35,7 +32,12 @@ function Register() {
 
   const onSubmit = (data) => {
     Axios.post("http://localhost:3001/auth", data).then((response) => {
-      navigate("/");
+      if (response.data.error) {
+        setAlert(true);
+        setAlertMessage(response.data.error);
+      } else {
+        navigate("/");
+      }
     });
   };
 
@@ -45,10 +47,7 @@ function Register() {
         <Col></Col>
         <Col xs={10} md={10} xl={6}>
           <Card className="border-0 mb-3 bg-transparent">
-          <img
-            src="../icon-above-font.png"
-            alt="Groupomania"
-          ></img>
+            <img src="../icon-above-font.png" alt="Groupomania"></img>
           </Card>
         </Col>
         <Col></Col>
@@ -58,6 +57,17 @@ function Register() {
         <Col xs={10} md={10} xl={6}>
           <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
+              {/* Alert si l'utilisateur n'est pas connecté */}
+              {alert && (
+                <Alert
+                  variant="danger"
+                  onClose={() => setAlert(false)}
+                  dismissible
+                >
+                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
+                  <p>{alertMessage}</p>
+                </Alert>
+              )}
               <Card.Title className="text-center mb-4">Inscription</Card.Title>
               <Formik
                 initialValues={initialValues}
@@ -91,7 +101,9 @@ function Register() {
             </Card.Body>
           </Card>
           <div className="text-center">
-            <a className="fw-lighter nav-link" href="/login">J'ai déjà un compte</a>
+            <a className="fw-lighter nav-link" href="/login">
+              J'ai déjà un compte
+            </a>
           </div>
         </Col>
         <Col></Col>
