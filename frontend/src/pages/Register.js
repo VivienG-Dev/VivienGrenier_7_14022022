@@ -57,7 +57,7 @@ function Register() {
         <Col xs={10} md={10} xl={6}>
           <Card className="card rounded-3 shadow border-0 mb-3">
             <Card.Body>
-              {/* Alert si l'utilisateur n'est pas connecté */}
+              {/* Alert si l'utilisateur existe déjà */}
               {alert && (
                 <Alert
                   variant="danger"

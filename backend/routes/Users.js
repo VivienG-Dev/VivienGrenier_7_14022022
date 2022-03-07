@@ -17,8 +17,8 @@ router.post("/", async (req, res) => {
   // Plutôt que de créer une simple variable comme dans Posts/Comments on déstructure l'objet, on récupère individuellement...
   // ...username et password car on va apporter des modifications à password (le hash), on a donc besoin de les séparer
   const { username, password } = req.body;
+  // On demande à sequelize d'aller dans la table users et de trouver UN utilisateur (par le username). Si le username est true alors on aura un message d'erreur
   const user = await Users.findOne({ where: { username: username } });
-  // console.log(user)
   if (user) {
     res.json({ error: "L'utilisateur existe déjà"});
   } else {
