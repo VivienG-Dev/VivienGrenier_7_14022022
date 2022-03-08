@@ -10,6 +10,7 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [postObject, setPostObject] = useState({});
   let navigate = useNavigate();
 
   // Quand la page est crée, la logique écrite dans useEffect est activé une fois seulement dans ce cas précis (sauf si on rempli la dépendance dans [])
@@ -38,7 +39,7 @@ function Home() {
               <Card.Body>
                 <input
                   className="form-control"
-                  placeholder="Poster un article..."
+                  placeholder="Ajouter un article..."
                   onClick={createPost}
                 ></input>
               </Card.Body>
@@ -54,6 +55,9 @@ function Home() {
               .slice(0)
               .reverse()
               .map((post, index) => {
+                // Date for post
+                const datePost = new Date(post.createdAt);
+                const newDatePost = datePost.toLocaleDateString("fr");
                 return (
                   <Card
                     className="card mb-4 rounded-3 shadow"
@@ -61,6 +65,9 @@ function Home() {
                     key={index}
                   >
                     <Card.Body>
+                      <span className="fw-light">
+                        Auteur: {post.username} Date: {newDatePost}
+                      </span>
                       <Card.Title>{post.title}</Card.Title>
                       <Card.Text>{post.postText}</Card.Text>
                       <Button

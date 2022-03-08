@@ -66,7 +66,7 @@ function CreatePost() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <Card.Title className="text-center mb-4">
-                Poster un article
+                Ajouter un article
               </Card.Title>
               {/* Alert si l'utilisateur n'est pas connecté */}
               {alert && (
@@ -85,15 +85,15 @@ function CreatePost() {
                 validationSchema={validationSchema}
               >
                 <Form className="formContainer">
-                  <label>Titre</label>
+                  <label>Titre de l'article</label>
                   <ErrorMessage name="title" component="span" />
                   <Field
                     className="form-control mb-3"
                     id="inputCreatePost"
                     name="title"
-                    placeholder="Le titre"
+                    placeholder="Le titre de l'article"
                   />
-                  <label>Contenu</label>
+                  <label>Texte de l'article</label>
                   <ErrorMessage name="postText" component="span" />
                   <Field
                     as="textarea"
@@ -101,11 +101,11 @@ function CreatePost() {
                     className="form-control mb-3"
                     id="inputCreatePost"
                     name="postText"
-                    placeholder="Le contenu du post"
+                    placeholder="Le contenu de l'article"
                   />
                   <Button className="btn btn-danger" type="submit">
                     {" "}
-                    Envoyer
+                    Publier
                   </Button>
                 </Form>
               </Formik>

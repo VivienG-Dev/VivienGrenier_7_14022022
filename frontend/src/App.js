@@ -86,7 +86,7 @@ function App() {
                         Accueil
                       </Link>
                       <Link className="nav-link" to="/submit">
-                        Poster un article
+                        Ajouter un article
                       </Link>
                       <Link className="nav-link" to="/profile">
                         Profile
@@ -97,7 +97,7 @@ function App() {
                 {authState.status && (
                   <Nav className="justify-content-end">
                     <Navbar.Text>
-                      Connecté sous:{" "}
+                      Bienvenue :{" "}
                       <Link to="/profile">{authState.username}</Link>
                     </Navbar.Text>
                     <div className="vr mx-3" />

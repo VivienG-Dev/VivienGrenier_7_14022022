@@ -21,7 +21,6 @@ html body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .formContainer span {
@@ -40,5 +39,4 @@ html body {
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  width: 80%;
 }

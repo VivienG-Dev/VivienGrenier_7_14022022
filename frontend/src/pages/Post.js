@@ -153,12 +153,12 @@ function Post() {
           <Card className="card rounded-3 shadow border-0">
             <Card.Body>
               <div className="post">
+                <span className="fw-light">
+                  Auteur: {postObject.username} Date: {newDatePost}
+                </span>
                 <Card.Title as="h2">{postObject.title}</Card.Title>
                 <Card.Text>{postObject.postText}</Card.Text>
                 <div className="text-end">
-                  <span className="fw-light">
-                    Auteur: {postObject.username} Date: {newDatePost}
-                  </span>
                   {authState.id === postObject.UserId && (
                     <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
                       <ShowModal
@@ -192,9 +192,9 @@ function Post() {
               <>
                 <textarea
                   rows="2"
-                  className="form-control mb-4"
+                  className="form-control mb-3"
                   type="text"
-                  placeholder="Commentaire..."
+                  placeholder="Ajouter un commentaire..."
                   value={newComment}
                   onChange={(e) => {
                     setNewComment(e.target.value);
@@ -211,10 +211,10 @@ function Post() {
                     <p>{alertMessage}</p>
                   </Alert>
                 )}
-                <div className="d-grid gap-2 col-6 mx-auto">
+                <div className="d-flex justify-content-end">
                   <Button variant="danger" onClick={addComment}>
                     {" "}
-                    Ajouter un commentaire
+                    Publier le commentaire
                   </Button>
                 </div>
                 <div className="commentContainer">
@@ -230,12 +230,10 @@ function Post() {
                           className="my-3 border rounded-3 "
                           key={index}
                         >
+                          <span className="fw-light">
+                            Auteur: {comment.username} Date: {newDateComment}
+                          </span>
                           <Card.Text>{comment.commentBody}</Card.Text>
-                          <div className="text-end">
-                            <span className="fw-light">
-                              Auteur: {comment.username} Date: {newDateComment}
-                            </span>
-                          </div>
                           {authState.id === comment.UserId && (
                             <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
                               {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
