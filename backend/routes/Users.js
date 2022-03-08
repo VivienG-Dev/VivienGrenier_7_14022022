@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
       Users.create({
         username: username,
         password: hash,
+        isAdmin: ""
       });
       res.json("Success");
     });
@@ -44,11 +45,11 @@ router.post("/login", async (req, res) => {
   bcrypt.compare(password, user.password).then((valid) => {
     if (!valid) res.json({ error: "Mot de passe incorrect" });
     const accessToken = sign(
-      { username: user.username, id: user.id },
+      { username: user.username, id: user.id, isAdmin: user.isAdmin },
       "randomSecret" // A changer avec dotenv, également dans middlewares
     );
     // On récupère le token ET le username ainsi que l'id lors du login pour la partie frontend
-    res.json({ token: accessToken, username: username, id: user.id });
+    res.json({ token: accessToken, username: username, id: user.id, isAdmin: user.isAdmin });
   });
 });
 

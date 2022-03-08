@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
@@ -31,9 +31,9 @@ function Login() {
           username: response.data.username,
           id: response.data.id,
           status: true,
+          isAdmin: response.data.isAdmin,
         });
         navigate("/");
-        // console.log(response.data);
       }
     });
   };

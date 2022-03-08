@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isAdmin: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   });
 
   // On a besoin d'associer les utilisateurs avec les posts dans mysql, on utilise alors les fonctions de sequelize

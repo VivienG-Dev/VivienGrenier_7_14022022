@@ -10,7 +10,6 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
-  const [postObject, setPostObject] = useState({});
   let navigate = useNavigate();
 
   // Quand la page est crée, la logique écrite dans useEffect est activé une fois seulement dans ce cas précis (sauf si on rempli la dépendance dans [])

@@ -8,15 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Alert,
-  Card,
-  Modal,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 import ShowModal from "../components/Modal";
 
 function Post() {
@@ -65,7 +57,7 @@ function Post() {
       } else {
         const commentToAdd = {
           commentBody: newComment,
-          username: response.data.username
+          username: response.data.username,
         };
         setListOfComments([...listOfcomments, commentToAdd]);
         // Après le clique on va vider la valeur de l'input en mettant une string vide
@@ -100,34 +92,6 @@ function Post() {
   };
 
   const editPost = () => {
-    // if (option === "title") {
-    //   // let newTitle = prompt("Modifier le titre");
-    //   Axios.put(
-    //     "http://localhost:3001/posts/title",
-    //     { newTitle: newTitle, id: id },
-    //     {
-    //       headers: {
-    //         accessToken: localStorage.getItem("accessToken"),
-    //       },
-    //     }
-    //   );
-
-    //   // setPostObject({ ...postObject, title: newTitle });
-    // } else {
-    //   // let newPostText = prompt("Modifier le contenu");
-    //   Axios.put(
-    //     "http://localhost:3001/posts/postText",
-    //     { newPostText: newPostText, id: id },
-    //     {
-    //       headers: {
-    //         accessToken: localStorage.getItem("accessToken"),
-    //       },
-    //     }
-    //   );
-
-    //   // setPostObject({ ...postObject, postText: newPostText });
-    // }
-
     Axios.put(
       "http://localhost:3001/posts/update",
       { newPostText: newPostText, newTitle: newTitle, id: id },
@@ -154,28 +118,54 @@ function Post() {
             <Card.Body>
               <div className="post">
                 <span className="fw-light">
-                  Auteur: {postObject.username} Date: {newDatePost}
+                  Auteur: {postObject.username} Date: {newDatePost} {}
                 </span>
                 <Card.Title as="h2">{postObject.title}</Card.Title>
                 <Card.Text>{postObject.postText}</Card.Text>
                 <div className="text-end">
-                  {authState.id === postObject.UserId && (
-                    <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                      <ShowModal
-                        editPost={editPost}
-                        title={setNewTitle}
-                        body={setNewPostText}
-                      />
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => deletePost(postObject.id)}
-                      >
-                        {" "}
-                        Supprimer
-                      </Button>
-                    </div>
-                  )}
+                  {/* Utilisation d'une fonction "invoqué" IIFE pour placer la logique || */}
+                  {(function () {
+                    if (
+                      authState.isAdmin === "yes" ||
+                      authState.id === postObject.UserId
+                    ) {
+                      return (
+                        <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                          <ShowModal
+                            editPost={editPost}
+                            title={setNewTitle}
+                            body={setNewPostText}
+                          />
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            onClick={() => deletePost(postObject.id)}
+                          >
+                            {" "}
+                            Supprimer
+                          </Button>
+                        </div>
+                      );
+                    }
+                  })()}
+                  {/* {authState.isAdmin === "yes" ||
+                    (authState.id === postObject.UserId && (
+                      <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                        <ShowModal
+                          editPost={editPost}
+                          title={setNewTitle}
+                          body={setNewPostText}
+                        />
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => deletePost(postObject.id)}
+                        >
+                          {" "}
+                          Supprimer
+                        </Button>
+                      </div>
+                    ))} */}
                 </div>
               </div>
             </Card.Body>
