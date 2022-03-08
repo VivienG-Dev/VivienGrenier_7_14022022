@@ -65,7 +65,7 @@ function Post() {
       } else {
         const commentToAdd = {
           commentBody: newComment,
-          username: response.data.username,
+          username: response.data.username
         };
         setListOfComments([...listOfcomments, commentToAdd]);
         // Après le clique on va vider la valeur de l'input en mettant une string vide
@@ -221,7 +221,6 @@ function Post() {
                   {listOfcomments &&
                     listOfcomments.length > 0 &&
                     listOfcomments.map((comment, index) => {
-                      // Date for comment
                       const dateComment = new Date(comment.createdAt);
                       const newDateComment =
                         dateComment.toLocaleDateString("fr");
