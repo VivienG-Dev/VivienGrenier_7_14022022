@@ -70,14 +70,16 @@ function Home() {
                       </span>
                       <Card.Title>{post.title}</Card.Title>
                       <Card.Text>{post.postText}</Card.Text>
-                      <Button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          navigate(`/posts/${post.id}`);
-                        }}
-                      >
-                        Lire la suite
-                      </Button>
+                      <div className="d-flex justify-content-end">
+                        <Button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            navigate(`/posts/${post.id}`);
+                          }}
+                        >
+                          Lire la suite
+                        </Button>
+                      </div>
                     </Card.Body>
                   </Card>
                 );
