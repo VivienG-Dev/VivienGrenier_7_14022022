@@ -148,24 +148,6 @@ function Post() {
                       );
                     }
                   })()}
-                  {/* {authState.isAdmin === "yes" ||
-                    (authState.id === postObject.UserId && (
-                      <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                        <ShowModal
-                          editPost={editPost}
-                          title={setNewTitle}
-                          body={setNewPostText}
-                        />
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          onClick={() => deletePost(postObject.id)}
-                        >
-                          {" "}
-                          Supprimer
-                        </Button>
-                      </div>
-                    ))} */}
                 </div>
               </div>
             </Card.Body>
@@ -223,27 +205,35 @@ function Post() {
                             Auteur: {comment.username} Date: {newDateComment}
                           </span>
                           <Card.Text>{comment.commentBody}</Card.Text>
-                          {authState.id === comment.UserId && (
-                            <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                              {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
-                              <Button
-                                variant="outline-success"
-                                size="sm"
-                                onClick={() => deleteComment(comment.id)}
-                              >
-                                {" "}
-                                Modifier
-                              </Button>
-                              <Button
-                                variant="outline-danger"
-                                size="sm"
-                                onClick={() => deleteComment(comment.id)}
-                              >
-                                {" "}
-                                Supprimer
-                              </Button>
-                            </div>
-                          )}
+                          {/* Utilisation d'une fonction "invoqué" IIFE pour placer la logique || */}
+                          {(function () {
+                            if (
+                              authState.isAdmin ||
+                              authState.id === comment.UserId
+                            ) {
+                              return (
+                                <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+                                  {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
+                                  <Button
+                                    variant="outline-success"
+                                    size="sm"
+                                    onClick={() => deleteComment(comment.id)}
+                                  >
+                                    {" "}
+                                    Modifier
+                                  </Button>
+                                  <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    onClick={() => deleteComment(comment.id)}
+                                  >
+                                    {" "}
+                                    Supprimer
+                                  </Button>
+                                </div>
+                              );
+                            }
+                          })()}
                         </Card.Body>
                       );
                     })}
