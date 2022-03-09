@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
 import PageNotFound from "./pages/PageNotFound";
+import Admin from "./pages/Admin";
 // Pour activer le re-render lors de la connexion d'un utilisateur et ainsi afficher ce que l'on desire en fonction des données récoltées
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
@@ -53,7 +54,7 @@ function App() {
   const logout = () => {
     localStorage.removeItem("accessToken");
     // Lors du logout on a besoin de retrouver le state d'origine (voir plus haut), on reprend donc l'objet d'origine
-    setAuthState({ ...authState, status: false });
+    setAuthState({ ...authState, status: false, isAdmin: false });
   };
 
   return (
@@ -95,6 +96,13 @@ function App() {
                       </Link>
                     </>
                   )}
+                  {authState.isAdmin === true && (
+                    <>
+                      <Link className="nav-link" to="/admin">
+                        Admin
+                      </Link>
+                    </>
+                  )}
                 </Nav>
                 {authState.status && (
                   <Nav className="justify-content-end">
@@ -118,6 +126,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/posts/:id" element={<Post />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

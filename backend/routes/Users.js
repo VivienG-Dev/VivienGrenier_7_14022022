@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
       Users.create({
         username: username,
         password: hash,
-        isAdmin: ""
+        isAdmin: false
       });
       res.json("Success");
     });
