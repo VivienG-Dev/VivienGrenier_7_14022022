@@ -109,7 +109,6 @@ function Post() {
   };
 
   const editComment = (commentId) => {
-    console.log(newCommentBody, commentId)
     Axios.put(
       "http://localhost:3001/comments/update",
       { newCommentBody: newCommentBody, PostId: commentId },
@@ -118,9 +117,11 @@ function Post() {
           accessToken: localStorage.getItem("accessToken"),
         },
       }
-    );
+    ).then(() => {
+      navigate(0);
+    });
     // Modification instantané du DOM
-    // setPostObject({ ...postObject, postText: newPostText, title: newTitle });
+    // setListOfComments({ ...newArray, commentBody: newCommentBody });
   };
 
   // Date for post
