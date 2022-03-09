@@ -118,7 +118,7 @@ function Post() {
             <Card.Body>
               <div className="post">
                 <span className="fw-light">
-                  Auteur: {postObject.username} Date: {newDatePost} {}
+                  Auteur: {postObject.username} Date: {newDatePost}
                 </span>
                 <Card.Title as="h2">{postObject.title}</Card.Title>
                 <Card.Text>{postObject.postText}</Card.Text>
@@ -126,7 +126,7 @@ function Post() {
                   {/* Utilisation d'une fonction "invoqué" IIFE pour placer la logique || */}
                   {(function () {
                     if (
-                      authState.isAdmin === "yes" ||
+                      authState.isAdmin ||
                       authState.id === postObject.UserId
                     ) {
                       return (

@@ -21,7 +21,7 @@ function App() {
     username: "",
     id: 0,
     status: false,
-    isAdmin: "",
+    isAdmin: false,
   });
 
   // Après connexion "authState = true" mais si refrech de la page sans le useEffect, "authState" retourne à false
