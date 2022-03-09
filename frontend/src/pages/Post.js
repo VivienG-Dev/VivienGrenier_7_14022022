@@ -103,9 +103,18 @@ function Post() {
           accessToken: localStorage.getItem("accessToken"),
         },
       }
-    );
-    // Modification instantané du DOM
-    setPostObject({ ...postObject, postText: newPostText, title: newTitle });
+    ).then((response) => {
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        // Modification instantané du DOM
+        setPostObject({
+          ...postObject,
+          postText: newPostText,
+          title: newTitle,
+        });
+      }
+    });
   };
 
   const editComment = (commentId) => {
@@ -117,8 +126,12 @@ function Post() {
           accessToken: localStorage.getItem("accessToken"),
         },
       }
-    ).then(() => {
-      navigate(0);
+    ).then((response) => {
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        navigate(0);
+      }
     });
     // Modification instantané du DOM
     // setListOfComments({ ...newArray, commentBody: newCommentBody });

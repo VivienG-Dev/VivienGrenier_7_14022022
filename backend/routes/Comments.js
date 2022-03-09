@@ -55,13 +55,20 @@ router.delete("/:commentId", validateToken, async (req, res) => {
 });
 
 // Pour modifier un commentaire
-router.put('/update', validateToken, async (req, res) => {
+router.put("/update", validateToken, async (req, res) => {
   // On récupère les données du body (le postText et l'id)
   const { newCommentBody, PostId } = req.body;
-  // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
-  await Comments.update({commentBody: newCommentBody}, {where: {id: PostId}});
-  res.send({newCommentBody});
-})
+  if (newCommentBody) {
+    // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+    await Comments.update(
+      { commentBody: newCommentBody },
+      { where: { id: PostId } }
+    );
+    res.send({ newCommentBody });
+  } else {
+    res.json({ error: "Le champ est vide" });
+  }
+});
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;

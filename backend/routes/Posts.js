@@ -37,7 +37,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Supprimer un post
-router.delete('/:postId', validateToken, async (req, res) => {
+router.delete("/:postId", validateToken, async (req, res) => {
   const postId = req.params.postId;
 
   // Fonction de sequelize pour supprimer
@@ -48,16 +48,23 @@ router.delete('/:postId', validateToken, async (req, res) => {
   });
 
   res.json("Article supprimé !");
-})
+});
 
 // Modifier un article
-router.put('/update', validateToken, async (req, res) => {
+router.put("/update", validateToken, async (req, res) => {
   // On récupère les données du body (le postText et l'id)
   const { newPostText, newTitle, id } = req.body;
-  // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
-  await Posts.update({postText: newPostText, title: newTitle}, {where: {id: id}});
-  res.send({newPostText, newTitle});
-})
+  if (newPostText && newTitle) {
+    // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+    await Posts.update(
+      { postText: newPostText, title: newTitle },
+      { where: { id: id } }
+    );
+    res.send({ newPostText, newTitle });
+  } else {
+    res.json({ error: "Les champs sont vides" });
+  }
+});
 
 // On exporte router pour pouvoir l'utiliser dans server.js
 module.exports = router;
