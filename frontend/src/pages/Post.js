@@ -10,6 +10,7 @@ import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
 import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 import ShowModal from "../components/Modal";
+import EditComment from "../components/EditComment";
 
 function Post() {
   let { id } = useParams();
@@ -26,6 +27,8 @@ function Post() {
   // Pour modifier le contenu d'un article
   const [newTitle, setNewTitle] = useState("");
   const [newPostText, setNewPostText] = useState("");
+  // Pour modifier le contenu d'un commentaire
+  const [newCommentBody, setNewCommentBody] = useState("");
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/posts/${id}`).then((response) => {
@@ -103,6 +106,21 @@ function Post() {
     );
     // Modification instantané du DOM
     setPostObject({ ...postObject, postText: newPostText, title: newTitle });
+  };
+
+  const editComment = (commentId) => {
+    console.log(newCommentBody, commentId)
+    Axios.put(
+      "http://localhost:3001/comments/update",
+      { newCommentBody: newCommentBody, PostId: commentId },
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }
+    );
+    // Modification instantané du DOM
+    // setPostObject({ ...postObject, postText: newPostText, title: newTitle });
   };
 
   // Date for post
@@ -214,14 +232,10 @@ function Post() {
                               return (
                                 <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
                                   {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
-                                  <Button
-                                    variant="outline-success"
-                                    size="sm"
-                                    onClick={() => deleteComment(comment.id)}
-                                  >
-                                    {" "}
-                                    Modifier
-                                  </Button>
+                                  <EditComment
+                                    editComment={() => editComment(comment.id)}
+                                    body={setNewCommentBody}
+                                  />
                                   <Button
                                     variant="outline-danger"
                                     size="sm"
