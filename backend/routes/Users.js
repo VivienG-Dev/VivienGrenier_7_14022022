@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
   // On demande à sequelize d'aller dans la table users et de trouver UN utilisateur (par le username). Si le username est true alors on aura un message d'erreur
   const user = await Users.findOne({ where: { username: username } });
   if (user) {
-    res.json({ error: "L'utilisateur existe déjà"});
+    return res.json({ error: "L'utilisateur existe déjà"});
   } else {
     // On hash le mot de passe
     bcrypt.hash(password, 10).then((hash) => {
@@ -40,10 +40,10 @@ router.post("/login", async (req, res) => {
   // On demande à sequelize d'aller dans la table users et de trouver UN utilisateur (par le username) qui correspond à l'utilisateur récupéré juste au dessus dans le body
   const user = await Users.findOne({ where: { username: username } });
 
-  if (!user) res.json({ error: "L'utilisateur n'existe pas" });
+  if (!user) return res.json({ error: "L'utilisateur n'existe pas" });
 
   bcrypt.compare(password, user.password).then((valid) => {
-    if (!valid) res.json({ error: "Mot de passe incorrect" });
+    if (!valid) return res.json({ error: "Mot de passe incorrect" });
     const accessToken = sign(
       { username: user.username, id: user.id, isAdmin: user.isAdmin },
       "randomSecret" // A changer avec dotenv, également dans middlewares
