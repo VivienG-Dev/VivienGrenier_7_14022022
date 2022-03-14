@@ -76,7 +76,7 @@ function Home() {
                         Auteur: {post.username} Date: {newDatePost}
                       </span>
                       <Card.Title>{post.title}</Card.Title>
-                      <Card.Text>{truncate(post.postText, 300, post.postText)}</Card.Text>
+                      <Card.Text>{truncate(post.postText, 250, post.postText)}</Card.Text>
                       <div className="d-flex justify-content-end">
                         <Button
                           className="btn btn-danger"

@@ -53,7 +53,8 @@ router.delete("/:postId", validateToken, async (req, res) => {
 // Modifier un article
 router.put("/update", validateToken, async (req, res) => {
   // On récupère les données du body (le postText et l'id)
-  const { newPostText, newTitle, id } = req.body;
+  const { newPostText, newTitle, postObjectTitle, postObjectPostText, id } = req.body;
+
   if (newPostText && newTitle) {
     // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
     await Posts.update(
@@ -61,9 +62,43 @@ router.put("/update", validateToken, async (req, res) => {
       { where: { id: id } }
     );
     res.send({ newPostText, newTitle });
-  } else {
-    res.json({ error: "Les champs sont vides" });
+  } else if (newTitle) {
+    // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+    await Posts.update(
+      { postText: postObjectPostText, title: newTitle },
+      { where: { id: id } }
+    );
+    res.send({ postObjectPostText, newTitle });
+  } else if (newPostText) {
+    // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+    await Posts.update(
+      { postText: newPostText, title: postObjectTitle },
+      { where: { id: id } }
+    );
+    res.send({ newPostText, postObjectTitle });
   }
+
+  // if (newTitle) {
+  //   // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+  //   await Posts.update(
+  //     { postText: postObjectPostText, title: newTitle },
+  //     { where: { id: id } }
+  //   );
+  //   res.send({ postObjectPostText, newTitle });
+  // } else {
+  //   res.json({ error: "Les deux champs doivent être modifiés" });
+  // }
+  
+  // if (newPostText && newTitle) {
+  //   // La fonction update nous arrive de sequelize, le premier objet est celui à modifier et le second ou il est situé
+  //   await Posts.update(
+  //     { postText: newPostText, title: newTitle },
+  //     { where: { id: id } }
+  //   );
+  //   res.send({ newPostText, newTitle });
+  // } else {
+  //   res.json({ error: "Les deux champs doivent être modifiés" });
+  // }
 });
 
 // On exporte router pour pouvoir l'utiliser dans server.js

@@ -34,21 +34,16 @@ function ShowModal(props) {
           <label>Titre de l'article:</label>
           <input
             className="form-control"
-            placeholder="Poster un article..."
+            defaultValue={props.dataParentToChild.title}
             onChange={(e)=>props.title(e.target.value)}
-            // onChange={(e) => {
-            //   props.editPost("title", e.target.value);
-            // }}
           ></input>
           <label>Contenu de l'article:</label>
-          <input
+          <textarea
             className="form-control"
-            placeholder="Poster un article..."
+            rows="5"
+            defaultValue={props.dataParentToChild.postText}
             onChange={(e)=>props.body(e.target.value)}
-            // onChange={(e) => {
-            //   props.editPost("body", e.target.value);
-            // }}
-          ></input>
+          ></textarea>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

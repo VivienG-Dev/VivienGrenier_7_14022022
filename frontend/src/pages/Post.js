@@ -97,7 +97,7 @@ function Post() {
   const editPost = () => {
     Axios.put(
       "http://localhost:3001/posts/update",
-      { newPostText: newPostText, newTitle: newTitle, id: id },
+      { newPostText: newPostText, newTitle: newTitle, postObjectTitle: postObject.title, postObjectPostText: postObject.postText, id: id },
       {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
@@ -108,11 +108,12 @@ function Post() {
         console.log(response.data.error);
       } else {
         // Modification instantané du DOM
-        setPostObject({
-          ...postObject,
-          postText: newPostText,
-          title: newTitle,
-        });
+        // setPostObject({
+        //   ...postObject,
+        //   postText: newPostText,
+        //   title: newTitle,
+        // });
+        navigate(0);
       }
     });
   };
@@ -164,6 +165,7 @@ function Post() {
                       return (
                         <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
                           <ShowModal
+                            dataParentToChild={postObject}
                             editPost={editPost}
                             title={setNewTitle}
                             body={setNewPostText}
