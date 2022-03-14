@@ -1,12 +1,12 @@
 # OpenClassrooms Projet 7 : Créez un réseau social d’entreprise
-## Contexte du projet
+## Rappel du projet
 Vous êtes développeur depuis plus d'un an chez CONNECT-E, une petite agence web regroupant une douzaine d'employés.
 
 Le projet consiste à construire un réseau social interne pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues. 
 
 Le département RH de Groupomania a laissé libre cours à son imagination pour les fonctionnalités du réseau et a imaginé plusieurs briques pour favoriser les échanges entre collègues.
 
-Il faut que tu utilises un framework Front-End. Libre au développeur d'utiliser le framework de son choix (React, Vue, Angular, Ember, Meteor, Aurelia...).
+> Il faut que tu utilises un framework Front-End. Libre au développeur d'utiliser le framework de son choix (React, Vue, Angular, Ember, Meteor, Aurelia...).
 
 ## Available Scripts
 
@@ -31,10 +31,7 @@ Then, run `npm install`.
 ### Config.json
 
 Inside the folder config you will find `config.json`.\
-The project is already setup on my side but you may need to change few settings in `development` like
-the username and/or password. You don't need to change anything else to setup the config file if you use
-local Database. 
-
+There is default configuration for localhost but you may need to change few things in `development` like the username and/or password.
 
 ### `npm start`
 
@@ -48,7 +45,7 @@ You may also see any lint errors in the console in some situations.
 
 ### Admin user
 
-There is no actual admin system in this V1 but in the database, in the users table you can already set a user as admin in the column `isAdmin`, change `0` to `1`, refresh the page and you should be able to delete/modify any post/comment and be able to go to (empty for now) an Admin page.
+There is no actual admin interface in this V1 but in the users table you can set a user as admin by changing the column `isAdmin` by `0` to `1`, refresh the page and you should be able to delete/modify any post/comment and be able to go to (empty for now) an Admin page.
 
 ## Learn More
 
