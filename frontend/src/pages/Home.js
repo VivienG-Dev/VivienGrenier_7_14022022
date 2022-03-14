@@ -28,6 +28,14 @@ function Home() {
     navigate("/submit");
   };
 
+  function truncate( str, n, useWordBoundary ){
+    if (str.length <= n) { return str; }
+    const subString = str.substr(0, n-1); // the original check
+    return (useWordBoundary 
+      ? subString.substr(0, subString.lastIndexOf(" ")) 
+      : subString) + "...";
+  };
+
   return (
     <>
       <Container>
@@ -68,7 +76,7 @@ function Home() {
                         Auteur: {post.username} Date: {newDatePost}
                       </span>
                       <Card.Title>{post.title}</Card.Title>
-                      <Card.Text>{post.postText}</Card.Text>
+                      <Card.Text>{truncate(post.postText, 300, post.postText)}</Card.Text>
                       <div className="d-flex justify-content-end">
                         <Button
                           className="btn btn-danger"
