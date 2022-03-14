@@ -35,6 +35,7 @@ function EditComment(props) {
           <input
             className="form-control"
             placeholder="Modifier le commentaire..."
+            defaultValue={props.dataParentToChild.commentBody}
             onChange={(e) => props.body(e.target.value)}
             // onChange={(e) => {
             //   props.editPost("title", e.target.value);

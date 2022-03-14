@@ -249,6 +249,7 @@ function Post() {
                                 <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
                                   {/* Afin de récupérer l'Id du commentaire dans la fonction deleteComment, on passe l'Id récupéré via le .map comme paramètre */}
                                   <EditComment
+                                    dataParentToChild={comment}
                                     editComment={() => editComment(comment.id)}
                                     body={setNewCommentBody}
                                   />
