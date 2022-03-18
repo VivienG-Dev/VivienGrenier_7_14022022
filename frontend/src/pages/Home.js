@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 // Pour réaliser des redirections (anciennement useHistory)
 import { useNavigate } from "react-router-dom";
 // Bootstrap
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+// Composants
+import InputBtn from "../components/InputBtn";
+import HomePostCard from "../components/HomePostCard";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
@@ -28,13 +31,17 @@ function Home() {
     navigate("/submit");
   };
 
-  function truncate( str, n, useWordBoundary ){
-    if (str.length <= n) { return str; }
-    const subString = str.substr(0, n-1); // the original check
-    return (useWordBoundary 
-      ? subString.substr(0, subString.lastIndexOf(" ")) 
-      : subString) + "...";
-  };
+  function truncate(str, n, useWordBoundary) {
+    if (str.length <= n) {
+      return str;
+    }
+    const subString = str.substr(0, n - 1); // the original check
+    return (
+      (useWordBoundary
+        ? subString.substr(0, subString.lastIndexOf(" "))
+        : subString) + "..."
+    );
+  }
 
   return (
     <>
@@ -42,15 +49,7 @@ function Home() {
         <Row>
           <Col></Col>
           <Col xs={10} md={10} xl={6}>
-            <Card className="card mb-4 rounded-3 shadow" border="light">
-              <Card.Body>
-                <input
-                  className="form-control"
-                  placeholder="Ajouter un article..."
-                  onClick={createPost}
-                ></input>
-              </Card.Body>
-            </Card>
+            <InputBtn createPost={createPost} />
           </Col>
           <Col></Col>
         </Row>
@@ -66,29 +65,7 @@ function Home() {
                 const datePost = new Date(post.createdAt);
                 const newDatePost = datePost.toLocaleDateString("fr");
                 return (
-                  <Card
-                    className="card mb-4 rounded-3 shadow"
-                    border="light"
-                    key={index}
-                  >
-                    <Card.Body>
-                      <span className="fw-light">
-                        Auteur: {post.username} Date: {newDatePost}
-                      </span>
-                      <Card.Title>{post.title}</Card.Title>
-                      <Card.Text>{truncate(post.postText, 250, post.postText)}</Card.Text>
-                      <div className="d-flex justify-content-end">
-                        <Button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            navigate(`/posts/${post.id}`);
-                          }}
-                        >
-                          Lire la suite
-                        </Button>
-                      </div>
-                    </Card.Body>
-                  </Card>
+                  <HomePostCard key={index} post={post} newDatePost={newDatePost} navigate={navigate} truncate={truncate} />  
                 );
               })}
           </Col>

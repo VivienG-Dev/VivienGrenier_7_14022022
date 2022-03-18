@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 // Formik est une librairie open source qui permet de contruire des formulaires plus facilement, de gérer les erreurs etc...
@@ -8,17 +8,15 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
-// Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
-import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+// Composants
+import Warning from "../components/Warning";
 
 function CreatePost() {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  // On utilise "authState" et non "setAuthState" car on récupère déjà les informations dont on va avoir besoin lors du login (içi l'Id)
-  const { authState } = useContext(AuthContext);
 
   const initialValues = {
     title: "",
@@ -26,7 +24,6 @@ function CreatePost() {
   };
 
   // Pour rediriger l'utilisateur s'il n'est pas connecté
-  // Avec AuthContext on importe authState.status présent dans app.js ce qui permet de rediriger l'utilisateur s'il n'est pas connecté
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
@@ -67,16 +64,9 @@ function CreatePost() {
               <Card.Title className="text-center mb-4">
                 Ajouter un article
               </Card.Title>
-              {/* Alert si l'utilisateur n'est pas connecté */}
+              {/* Alert si l'utilisateur n'est pas connecté et se trouve sur la page submit */}
               {alert && (
-                <Alert
-                  variant="danger"
-                  onClose={() => setAlert(false)}
-                  dismissible
-                >
-                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
-                  <p>{alertMessage}</p>
-                </Alert>
+                <Warning message={alertMessage} setAlert={setAlert} />
               )}
               <Formik
                 initialValues={initialValues}

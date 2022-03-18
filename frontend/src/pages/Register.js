@@ -9,7 +9,9 @@ import * as Yup from "yup";
 // On utilise useNavigate pour faire une redirection après l'envoi du formulaire
 import { useNavigate } from "react-router-dom";
 // Bootstrap
-import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+// Composants
+import Warning from "../components/Warning";
 
 function Register() {
   const navigate = useNavigate();
@@ -59,14 +61,7 @@ function Register() {
             <Card.Body>
               {/* Alert si l'utilisateur existe déjà */}
               {alert && (
-                <Alert
-                  variant="danger"
-                  onClose={() => setAlert(false)}
-                  dismissible
-                >
-                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
-                  <p>{alertMessage}</p>
-                </Alert>
+                <Warning message={alertMessage} setAlert={setAlert} />
               )}
               <Card.Title className="text-center mb-4">Inscription</Card.Title>
               <Formik

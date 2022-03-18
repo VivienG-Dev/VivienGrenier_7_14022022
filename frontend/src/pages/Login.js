@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 // Pour récupérer le nom et le state de l'utilisateur (connecté ou non)
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
-import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+// Composants
+import Warning from "../components/Warning";
 
 function Login() {
   const navigate = useNavigate();
@@ -57,14 +59,7 @@ function Login() {
               <Card.Title className="text-center mb-4">Connexion</Card.Title>
               {/* Alert si l'utilisateur n'est pas connecté */}
               {alert && (
-                <Alert
-                  variant="danger"
-                  onClose={() => setAlert(false)}
-                  dismissible
-                >
-                  <Alert.Heading>Une erreur est apparue !</Alert.Heading>
-                  <p>{alertMessage}</p>
-                </Alert>
+                <Warning message={alertMessage} setAlert={setAlert} />
               )}
               <div className="createPost">
                 <label>Utilisateur</label>
