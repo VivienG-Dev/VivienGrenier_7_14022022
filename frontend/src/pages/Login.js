@@ -8,9 +8,6 @@ import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
 import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
 
-// Obligatoire pour la session
-// Axios.defaults.withCredentials = true;
-
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");

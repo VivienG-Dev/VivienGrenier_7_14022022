@@ -49,7 +49,6 @@ function CreatePost() {
       },
     }).then((response) => {
       if (response.data.error) {
-        // alert(response.data.error)
         setAlert(true);
         setAlertMessage(response.data.error);
       } else {

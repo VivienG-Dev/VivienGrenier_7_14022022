@@ -2,7 +2,7 @@ import React from "react";
 // On "remplace" Fetch par Axios (plus simple à utiliser)
 import Axios from "axios";
 // useEffect aura pour effet de se déclencher sur le cycle de vie du montage et de la mise à jour (componentDidMount/componentDidUpdate)
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 // Pour réaliser des redirections (anciennement useHistory)
 import { useNavigate } from "react-router-dom";
 // Bootstrap

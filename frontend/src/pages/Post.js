@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 // Bootstrap
 import { Container, Row, Col, Button, Alert, Card } from "react-bootstrap";
-import ShowModal from "../components/Modal";
+import EditPost from "../components/EditPost";
 import EditComment from "../components/EditComment";
 
 function Post() {
@@ -164,7 +164,7 @@ function Post() {
                     ) {
                       return (
                         <div className="d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-                          <ShowModal
+                          <EditPost
                             dataParentToChild={postObject}
                             editPost={editPost}
                             title={setNewTitle}

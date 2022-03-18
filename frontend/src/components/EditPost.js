@@ -3,7 +3,7 @@ import { useState } from "react";
 // Bootstrap
 import { Button, Modal } from "react-bootstrap";
 
-function ShowModal(props) {
+function EditPost(props) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -59,4 +59,4 @@ function ShowModal(props) {
   );
 }
 
-export default ShowModal;
+export default EditPost;
