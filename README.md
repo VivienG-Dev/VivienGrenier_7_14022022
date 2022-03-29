@@ -54,4 +54,4 @@ and [Bootstrap](https://react-bootstrap.github.io/).
 
 ### Estimated time for a V2
 
-This was finally not a requirement but I made an estimation for a possible V2 of the project (made in French)
+This was finally not a requirement but I made an estimation for a possible V2 of the project (made in French) : [Google Sheets](https://docs.google.com/spreadsheets/d/1ryjXG3KVrLzEpr3UZ1yBZGXgbxOcP9CpyNn075qPL0s/edit?usp=sharing)
